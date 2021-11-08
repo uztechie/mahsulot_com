@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/curved_search_bg.xml" value="0.23333333333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/curved_stroke_search_bg.xml" value="0.23333333333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.26927083333333335" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_close.xml" value="0.23333333333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/progress_animation.xml" value="0.23333333333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_category.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_product.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_product_header.xml" value="0.6075" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_slider_card.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_category.xml" value="0.19074074074074074" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_home.xml" value="0.152" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_search.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/item_article_preview.xml" value="0.6075" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/toolbar.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/menu/bottom_menu.xml" value="0.253125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

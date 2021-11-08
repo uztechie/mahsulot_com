@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Mahsulot</string>
+    <string name="asosiy">Asosiy</string>
+    <string name="bosh_sahifa">Bosh sahifa</string>
+    <string name="savdo">Savdo</string>
+    <string name="kabinet">Kabinet</string>
+    <string name="katalog">Katalog</string>
+    <string name="izlash">Izlash</string>
+</resources>

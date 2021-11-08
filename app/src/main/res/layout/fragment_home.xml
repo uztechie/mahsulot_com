@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:orientation="vertical">
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:visibility="gone"
+        android:id="@+id/product_progressbar"
+        style="@style/Widget.MaterialComponents.CircularProgressIndicator.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        app:indicatorColor="@color/colorAccent"
+        app:trackCornerRadius="16dp" />
+
+    <TextView
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/product_error_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:textSize="16sp" />
+    <RelativeLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorAccent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/home_search_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/curved_search_bg"
+            android:paddingRight="16dp"
+            app:drawableEndCompat="@drawable/ic_baseline_search_24"
+            app:drawableTint="@color/colorAccent" />
+
+    </RelativeLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:isScrollContainer="true"
+        android:measureAllChildren="true"
+        android:fillViewport="true"
+        android:layout_below="@+id/search_layout"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/sliderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/product_recyclerview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.github.islamkhsh.CardSliderViewPager
+                    android:id="@+id/cardSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:background="@color/background_color"
+                    app:auto_slide_time="4"
+                    app:cardSlider_baseShadow="2dp"
+                    app:cardSlider_indicator="@id/indicator2"
+                    app:cardSlider_minShadow="2dp"
+                    app:cardSlider_otherPagesWidth="24dp"
+                    app:cardSlider_pageMargin="0dp"
+                    app:cardSlider_smallScaleFactor="0.9" />
+
+                <com.github.islamkhsh.CardSliderIndicator
+                    android:id="@+id/indicator2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    app:indicatorsToShow="5" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:nestedScrollingEnabled="false"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:id="@+id/product_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="800dp"
+                android:layout_below="@+id/sliderLayout"
+                android:layout_margin="4dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sliderLayout" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>
