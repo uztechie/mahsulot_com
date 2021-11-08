@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.adapter_body.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.toolbar.*
 import uz.techie.mahsulot.MainActivity
@@ -24,6 +25,7 @@ import uz.techie.mahsulot.adapter.ProductAdapter
 import uz.techie.mahsulot.adapter.SliderAdapter
 import uz.techie.mahsulot.data.MahsulotViewModel
 import uz.techie.mahsulot.model.Banner
+import uz.techie.mahsulot.model.MainModel
 import uz.techie.mahsulot.model.Product
 import uz.techie.mahsulot.util.Resource
 
@@ -31,29 +33,29 @@ import uz.techie.mahsulot.util.Resource
 class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var productAdapter: ProductAdapter
     lateinit var sliderAdapter: SliderAdapter
+
     private lateinit var viewModel: MahsulotViewModel
     private val TAG = "HomeFragment"
+    private val mainList:MutableList<MainModel> = mutableListOf()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as MainActivity).setSupportActionBar(toolbar)
-
         viewModel = (activity as MainActivity).viewModel
+
         productAdapter = ProductAdapter()
 
 
-        sliderAdapter = SliderAdapter(sliderList())
-        cardSlider.adapter = sliderAdapter
-
-
+        mainList.add(MainModel(1, sliderList()))
+        mainList.add(MainModel(1, sliderList()))
+        productAdapter.differ.submitList(mainList)
         product_recyclerview.apply {
-            setHasFixedSize(false)
-            adapter = productAdapter
+            setHasFixedSize(true)
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            adapter = productAdapter
         }
-
 
 
         viewModel.products.observe(viewLifecycleOwner, Observer { response ->
@@ -66,7 +68,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     hideErrorText()
                     hideProgressbar()
                     response.data?.let { productsResponse->
-                        productAdapter.differ.submitList(productsResponse.toList())
+                        productsResponse.forEach { product ->
+                            mainList.add(MainModel(2, null, product))
+                        }
+                        productAdapter.differ.submitList(mainList)
+
+
+
+
+                        Log.d(TAG, "onViewCreated: size "+mainList.size)
+//                        mainAdapter.submitList(mainList)
 //                        Log.d(TAG, "onViewCreated: success ${productsResponse.size}")
                     }
                 }
