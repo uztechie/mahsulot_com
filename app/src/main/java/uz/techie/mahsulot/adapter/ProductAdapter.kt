@@ -1,98 +1,44 @@
 package uz.techie.mahsulot.adapter
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import kotlinx.android.synthetic.main.adapter_product.view.*
 
 import uz.techie.mahsulot.model.Product
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.adapter_product_header.view.*
+import kotlinx.android.synthetic.main.adapter_product.view.*
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.model.Banner
-import uz.techie.mahsulot.model.MainModel
+import uz.techie.mahsulot.ui.fragments.HomeFragment
+import uz.techie.mahsulot.ui.fragments.SliderFragment
 
 
-class ProductAdapter:RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
+
+
+
     companion object{
+        private const val TAG = "ProductAdapter"
         const val HEADER = 1
         const val BODY = 2
     }
 
 
-
-    private val differCallback = object: DiffUtil.ItemCallback<MainModel>(){
-        override fun areItemsTheSame(oldItem: MainModel, newItem: MainModel): Boolean {
-            return oldItem.type == newItem.type && oldItem.list == newItem.list && oldItem.product?.id == newItem.product?.id
-        }
-
-        override fun areContentsTheSame(oldItem: MainModel, newItem: MainModel): Boolean {
-            return oldItem == newItem
-        }
-
-    }
-    val differ = AsyncListDiffer(this, differCallback)
-
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        if (viewType == HEADER){
-            val view:View  = LayoutInflater.from(parent.context).inflate(R.layout.adapter_product_header, parent, false)
-            return ProductViewHolder(view)
-        }
-        else{
-            val view:View  = LayoutInflater.from(parent.context).inflate(R.layout.adapter_product, parent, false)
-            return ProductViewHolder(view)
-        }
-
-
-    }
-
-    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val mainModel = differ.currentList[position]
-        if (mainModel.type == HEADER){
-            holder.bindHeader(mainModel.list as MutableList<Banner>)
-        }
-
-
-        mainModel.product?.let { holder.bindBody(it) }
-
-
-
-
-    }
-
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        if (differ.currentList[position].type == HEADER){
-            return HEADER
-        }
-        else{
-            return BODY
-        }
-    }
-
     inner class ProductViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
-        fun bindHeader(list: MutableList<Banner>){
-            val sliderAdapter = SliderAdapter(list)
-            itemView.cardSlider.adapter = sliderAdapter
-        }
-        fun bindBody(product: Product){
+
+        fun bindProduct(product: Product){
             itemView.apply {
                 adapter_product_price.text = "${product.price}"
                 adapter_product_title.text = product.name
@@ -107,7 +53,87 @@ class ProductAdapter:RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
                 Log.d("TAG", "onBindViewHolder: size "+itemCount)
             }
         }
+        val fragmantContainer = itemView.findViewById<FrameLayout>(R.id.fragment_container)
+
+        init {
+            itemView.setOnClickListener {
+                if (bindingAdapterPosition != 0){
+                    onOpenFragment.onItemClick(differ.currentList[bindingAdapterPosition])
+                }
+            }
+        }
+
     }
+
+
+    private val differCallback = object: DiffUtil.ItemCallback<Product>(){
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem == newItem
+        }
+
+    }
+    val differ = AsyncListDiffer(this, differCallback)
+
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+        Log.d(TAG, "onCreateViewHolder: viewtype "+viewType)
+        if (viewType == HEADER){
+            val view:View  = LayoutInflater.from(parent.context).inflate(R.layout.container_fragment_slider, parent, false)
+            return ProductViewHolder(view)
+        }
+        else {
+            val view:View  = LayoutInflater.from(parent.context).inflate(R.layout.adapter_product, parent, false)
+            return ProductViewHolder(view)
+        }
+
+
+    }
+
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+        Log.d(TAG, "onBindViewHolder: viewtype "+getItemViewType(position))
+
+        if (getItemViewType(position) == HEADER){
+            onOpenFragment.openFragment(holder.fragmantContainer.id)
+        }
+        else{
+            val product = differ.currentList[position]
+            holder.bindProduct(product)
+        }
+
+
+
+
+
+    }
+
+    override fun getItemCount(): Int {
+        return differ.currentList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        Log.d(TAG, "getItemViewType: "+position)
+        Log.d(TAG, "getItemViewType: ")
+        if (differ.currentList[position].viewType == HEADER){
+            return HEADER
+        }
+        else{
+            return BODY
+        }
+
+
+    }
+
+
+    interface OnOpenFragment{
+        fun openFragment(viewTypeId:Int)
+        fun onItemClick(product: Product)
+    }
+
 
 
     private var options: RequestOptions = RequestOptions()
