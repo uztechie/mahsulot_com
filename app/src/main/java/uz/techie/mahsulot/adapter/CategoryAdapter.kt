@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.adapter_product.view.*
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.model.Category
 
-class CategoryAdapter:ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(CategoryComparator()) {
+class CategoryAdapter(val categoryInterface: CategoryInterface):ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(CategoryComparator()) {
 
     private class CategoryComparator:DiffUtil.ItemCallback<Category>(){
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
@@ -37,17 +37,27 @@ class CategoryAdapter:ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.itemView.apply {
-            adapter_category_title.text = getItem(position).title
+            adapter_category_title.text = getItem(position).name
 
             Glide.with(holder.itemView)
-                .load(getItem(position).image)
+                .load(getItem(position).icon)
                 .apply(options)
                 .into(adapter_category_image)
 
         }
     }
 
-    inner class CategoryViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){}
+    inner class CategoryViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
+        init {
+            itemView.setOnClickListener {
+                categoryInterface.onItemClick(getItem(absoluteAdapterPosition))
+            }
+        }
+    }
+
+    interface CategoryInterface{
+        fun onItemClick(category: Category)
+    }
 
     private var options: RequestOptions = RequestOptions()
         .centerCrop()
@@ -57,5 +67,5 @@ class CategoryAdapter:ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(
         .priority(Priority.HIGH)
         .dontAnimate()
         .dontTransform()
-
 }
+

@@ -2,34 +2,24 @@ package uz.techie.mahsulot.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.toolbar.*
 import uz.techie.mahsulot.MainActivity
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.ProductAdapter
-import uz.techie.mahsulot.adapter.SliderAdapter
 import uz.techie.mahsulot.data.MahsulotViewModel
-import uz.techie.mahsulot.model.Banner
+import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Product
+import uz.techie.mahsulot.util.Constants
 import uz.techie.mahsulot.util.Resource
-import kotlin.math.log
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -37,21 +27,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var viewModel: MahsulotViewModel
     private val TAG = "HomeFragment"
     private val TAG2 = "FFFFFFFFFF"
+    lateinit var gridLayoutManager : GridLayoutManager
+    lateinit var infoDialog: InfoDialog
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG2, "onCreate: ")
+        Log.d(TAG2, "onCreate bundle: "+savedInstanceState)
+
+
+
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d(TAG2, "onCreateView: ")
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,20 +49,65 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         Log.d(TAG2, "onViewCreated: ")
 
         (activity as MainActivity).setSupportActionBar(toolbar)
+        (activity as MainActivity).updateStatusBarDark()
+
         viewModel = (activity as MainActivity).viewModel
 
+        infoDialog = InfoDialog(requireContext())
+
+        val sliderFragment = SliderFragment()
+        val topProductFragment = TopProductFragment()
+
+        productAdapter = ProductAdapter(object : ProductAdapter.OnOpenFragment{
+            override fun openFragment(viewId: Int, viewType:Int) {
+                try {
+                    Log.d(TAG, "openFragment: try")
+                    val fragmentManager = parentFragmentManager
+                    if (sliderFragment.isAdded){
+                        Log.d(TAG, "openFragment: isAdded")
+                        fragmentManager.popBackStackImmediate(SliderFragment::class.simpleName, 0)
+                    }
+                    else{
+
+                        if (viewType == ProductAdapter.HEADER){
+                            Log.d(TAG, "openFragment: isNotAdded")
+                            fragmentManager.beginTransaction()
+                                .add(viewId, sliderFragment)
+                                .commitAllowingStateLoss()
+                        }
+                        else if (viewType == ProductAdapter.TOP_PRODUCT){
+                            Log.d(TAG, "openFragment: isNotAdded")
+                            fragmentManager.beginTransaction()
+                                .add(viewId, topProductFragment)
+                                .commitAllowingStateLoss()
+                        }
+
+                    }
+                }catch (e:Exception){
+                    Log.d(TAG, "openFragment: error "+e.message)
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onItemClick(product: Product) {
+                Log.d(TAG, "onItemClick: "+product.id)
+                findNavController().navigate(HomeFragmentDirections.actionGlobalProductDetailsFragment(product))
+            }
+
+        })
+        productAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
 
-
-
-        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+        gridLayoutManager = GridLayoutManager(requireContext(), 2)
         gridLayoutManager.spanSizeLookup = object :GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(position: Int): Int {
 
                 Log.d(TAG, "getSpanSize: "+productAdapter.getItemViewType(position))
                 Log.d(TAG, "getSpanSize:  "+productAdapter.getItemViewType(position))
 
-                if (productAdapter.getItemViewType(position)==ProductAdapter.HEADER){
+                if (productAdapter.getItemViewType(position)==ProductAdapter.HEADER
+                    || productAdapter.getItemViewType(position)==ProductAdapter.TOP_PRODUCT){
                     return 2
                 }
                 else{
@@ -90,35 +125,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             layoutManager = gridLayoutManager
         }
 
-        productAdapter.differ.submitList(listOf(Product(viewType = ProductAdapter.HEADER)))
 
 
-        val sliderFragment = SliderFragment()
-        productAdapter = ProductAdapter(object : ProductAdapter.OnOpenFragment{
-            override fun openFragment(viewTypeId: Int) {
-                try {
-                    val fragmentManager = childFragmentManager
-                    if (sliderFragment.isAdded){
-                        fragmentManager.popBackStackImmediate(SliderFragment::class.simpleName, 0)
-                    }
-                    else{
-                        fragmentManager.beginTransaction()
-                            .replace(viewTypeId, sliderFragment)
-                            .commitAllowingStateLoss()
-                    }
-                }catch (e:Exception){
-                    e.printStackTrace()
-                }
 
-            }
-
-            override fun onItemClick(product: Product) {
-                Log.d(TAG, "onItemClick: "+product.id)
-//                findNavController().navigate(HomeFragmentDirections.actionGlobalProductDetailsFragment(product))
-            }
-
-        })
-
+        productAdapter.differ.submitList(listOf(Product(viewType = ProductAdapter.HEADER), Product(viewType = ProductAdapter.TOP_PRODUCT)))
 
 
         viewModel.products.observe(viewLifecycleOwner, Observer { response ->
@@ -128,23 +138,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             when (response) {
                 is Resource.Success -> {
+                    product_swipe_refresh.isRefreshing = false
                     hideErrorText()
                     hideProgressbar()
                     response.data?.let { productsResponse->
                         val productList = mutableListOf<Product?>()
                         productList.addAll(productsResponse)
                         productList.add(0,Product(viewType = ProductAdapter.HEADER))
-
-
+                        productList.add(1,Product(viewType = ProductAdapter.TOP_PRODUCT))
                         productAdapter.differ.submitList(productList)
-//                        Log.d(TAG, "onViewCreated: success ${productsResponse.size}")
                     }
                 }
                 is Resource.Error -> {
+                    product_swipe_refresh.isRefreshing = false
                     hideProgressbar()
                     showErrorText(response.message!!)
                 }
                 is Resource.Loading -> {
+                    product_swipe_refresh.isRefreshing = false
                     hideErrorText()
                     showProgressbar()
                 }
@@ -157,15 +168,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
 
+        initSwipeRefresh()
+
 
     }
 
+    private fun initSwipeRefresh(){
+        product_swipe_refresh.setOnRefreshListener(object :SwipeRefreshLayout.OnRefreshListener{
+            override fun onRefresh() {
+                viewModel.loadProducts()
+            }
+
+        })
+    }
+
     private fun showErrorText(message: String) {
-        product_error_tv.visibility = View.VISIBLE
+        infoDialog.show()
+        infoDialog.submitData(message)
+        product_error_tv.visibility = View.GONE
         product_error_tv.text = message
     }
 
     private fun hideErrorText() {
+        infoDialog.dismiss()
         product_error_tv.visibility = View.GONE
     }
 
@@ -178,40 +203,34 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         product_progressbar.visibility = View.GONE
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG2, "onStart: ")
-    }
-
     override fun onResume() {
         super.onResume()
-        Log.d(TAG2, "onResume: ")
+//        Log.d(TAG2, "onResume: ")
+//        val lastPosition = Constants.homeRecyclerPosition
+//        Log.d(TAG, "onResume: lastPosition "+lastPosition)
+//        Log.d(TAG, "onResume: listsize "+Constants.productList.size)
+//
+//        productAdapter.differ.submitList(Constants.productList)
+//        product_recyclerview.layoutManager?.onRestoreInstanceState(Constants.homeRecyclerState)
+//
+//        if (product_recyclerview.layoutManager == null){
+//            Log.d(TAG, "onResume: null")
+//        }
+//        else{
+//            Log.d(TAG, "onResume: "+product_recyclerview.layoutManager!!.itemCount)
+//        }
+
+
     }
 
     override fun onPause() {
         super.onPause()
         Log.d(TAG2, "onPause: ")
+        Constants.homeRecyclerPosition = gridLayoutManager.findFirstCompletelyVisibleItemPosition()
+        Constants.homeRecyclerState = product_recyclerview.layoutManager?.onSaveInstanceState()
+        Constants.productList = productAdapter.differ.currentList
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG2, "onStop: ")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d(TAG2, "onDestroyView: ")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d(TAG2, "onDetach: ")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG2, "onDestroy: ")
-    }
 
 
 

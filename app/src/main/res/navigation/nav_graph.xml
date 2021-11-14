@@ -15,9 +15,62 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="uz.techie.mahsulot.ui.fragments.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="uz.techie.mahsulot.ui.fragments.CategoryFragment"
-        android:label="CategoryFragment" />
+        android:label="CategoryFragment" >
+        <action
+            android:id="@+id/action_categoryFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.ProductDetailsFragment"
+        android:label="ProductDetailsFragment" >
+        <argument
+            android:name="product"
+            app:argType="uz.techie.mahsulot.model.Product" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <action android:id="@+id/action_global_productDetailsFragment" app:destination="@id/productDetailsFragment" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment" />
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.ProductFragment"
+        android:label="ProductFragment" >
+        <argument
+            android:name="category"
+            app:argType="uz.techie.mahsulot.model.Category" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/cabinetFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.CabinetFragment"
+        android:label="CabinetFragment" />
+    <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/topProductFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.TopProductFragment"
+        android:label="TopProductFragment" />
 </navigation>

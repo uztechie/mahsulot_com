@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <ImageView
-        app:tint="@color/colorAccent"
+        app:tint="@color/gray"
         android:padding="4dp"
         android:id="@+id/search_close_btn"
         android:layout_width="32dp"
@@ -21,11 +21,12 @@
         app:layout_constraintTop_toTopOf="@+id/search_searchview" />
 
     <SearchView
+        android:queryBackground="@android:color/transparent"
         android:closeIcon="@drawable/ic_close"
         android:searchIcon="@drawable/ic_baseline_search_24"
         android:id="@+id/search_searchview"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_margin="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
@@ -40,12 +41,48 @@
         android:id="@+id/search_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="4dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_searchview" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:visibility="gone"
+        android:id="@+id/search_progressbar"
+        style="@style/Widget.MaterialComponents.CircularProgressIndicator.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        app:indicatorColor="@color/colorAccent"
+        app:trackCornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <TextView
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/search_error_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:textSize="16sp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

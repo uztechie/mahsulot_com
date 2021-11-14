@@ -6,4 +6,21 @@
     <string name="kabinet">Kabinet</string>
     <string name="katalog">Katalog</string>
     <string name="izlash">Izlash</string>
+    <string name="batafsil">Batafsil</string>
+    <string name="sotib_olish">Sotib olish</string>
+    <string name="harid_qilish">Harid qilish</string>
+    <string name="kataloglar">Kataloglar</string>
+    <string name="som">so\'m</string>
+    <string name="telefon_raqamingiz">Telefon raqamingiz</string>
+    <string name="kodni_olish">Kodni olish</string>
+    <string name="tasdiqlash">Tasdiqlash</string>
+    <string name="tasdiqlash_kodini_kiriting">Tasdiqlash kodini kiriting</string>
+    <string name="kod_kelmadi">Kod kelmadi</string>
+    <string name="raqamni_o_zgartitirsh">Raqamni o\'zgartitirsh</string>
+    <string name="kodni_qayta_so_rash">Kodni qayta so\'rash</string>
+    <string name="mavjud_telefon_raqami">Mavjud telefon raqamini kiriting</string>
+    <string name="internetga_ulanmagan">Internetga ulanmagan</string>
+    <string name="qiziqarli_mahsulotlar">Qiziqarli mahsulotlar</string>
+    <string name="barcha_mahsulotlar">Barcha mahsulotlar</string>
+    <string name="ilovadan_foydalanish_uchun_internetga_ulaning">Ilovadan foydalanish uchun internetga ulaning</string>
 </resources>

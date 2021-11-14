@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.custom_toolbar.*
 import kotlinx.android.synthetic.main.fragment_category.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -23,29 +25,69 @@ import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.CategoryAdapter
 import uz.techie.mahsulot.adapter.ProductAdapter
 import uz.techie.mahsulot.adapter.SliderAdapter
+import uz.techie.mahsulot.data.MahsulotViewModel
 import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.model.Category
 import uz.techie.mahsulot.model.Product
+import uz.techie.mahsulot.util.Resource
 
 @AndroidEntryPoint
-class CategoryFragment:Fragment(R.layout.fragment_category){
+class CategoryFragment:Fragment(R.layout.fragment_category), CategoryAdapter.CategoryInterface {
     private lateinit var categoryAdapter: CategoryAdapter
-
+    private lateinit var viewModel:MahsulotViewModel
+    private val TAG = "CategoryFragment"
+    private lateinit var gridLayoutManager:GridLayoutManager
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = (activity as MainActivity).viewModel
 
+        categoryAdapter = CategoryAdapter(this)
+        initToolbar()
+        (activity as MainActivity).updateStatusLight()
 
-
-        categoryAdapter = CategoryAdapter()
+        gridLayoutManager = GridLayoutManager(requireContext(), 3)
         category_recyclerview.setHasFixedSize(true)
-        category_recyclerview.layoutManager = GridLayoutManager(context, 3)
+        category_recyclerview.layoutManager = gridLayoutManager
         category_recyclerview.adapter = categoryAdapter
 
+        viewModel.categories.observe(viewLifecycleOwner, Observer { response->
+            Log.d(TAG, "onViewCreated: observer "+response.message)
+            Log.d(TAG, "onViewCreated: observer "+response.data)
+            when (response) {
+                is Resource.Success -> {
+                    hideErrorText()
+                    hideProgressbar()
+                    response.data?.let { productsResponse ->
+                        categoryAdapter.submitList(productsResponse)
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressbar()
+                    showErrorText(response.message!!)
+                }
+                is Resource.Loading -> {
+                    hideErrorText()
+                    showProgressbar()
+                }
+            }
+        })
 
-        categoryAdapter.submitList(categoryList())
 
+
+    }
+
+    private fun initToolbar(){
+        toolbar_title.text = getString(R.string.kataloglar)
+        toolbar_title.visibility = View.VISIBLE
+
+        toolbar_btnClose.setOnClickListener {
+            findNavController().navigate(CategoryFragmentDirections.actionGlobalHomeFragment())
+        }
+        toolbar_btnSearch.setOnClickListener {
+            findNavController().navigate(CategoryFragmentDirections.actionGlobalSearchFragment())
+        }
 
     }
 
@@ -64,6 +106,41 @@ class CategoryFragment:Fragment(R.layout.fragment_category){
         list.add(Category(1, "Mashinalar", img3))
         list.add(Category(1, "Samalyotlar", "sd"))
         return list
+    }
+
+    private fun showErrorText(message: String) {
+        category_error_tv.visibility = View.VISIBLE
+        category_error_tv.text = message
+    }
+
+    private fun hideErrorText() {
+        category_error_tv.visibility = View.GONE
+    }
+
+    private fun showProgressbar() {
+        category_progressbar.visibility = View.VISIBLE
+    }
+
+
+    private fun hideProgressbar() {
+        category_progressbar.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadCategories()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onItemClick(category: Category) {
+        category.id?.let {
+            findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToProductFragment(category))
+        }
+
+
     }
 
 

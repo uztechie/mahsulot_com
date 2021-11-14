@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/custom_toolbar"/>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/code_input_info_tv"
+            android:layout_marginTop="16dp"
+            android:text="@string/telefon_raqamingiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
+
+
+        <com.chaos.view.PinView
+            android:gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:id="@+id/pinView"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:cursorColor="@color/black"
+            app:cursorWidth="2dp"
+            app:hideLineWhenFilled="false"
+            app:itemCount="6"
+            app:itemHeight="40dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="0dp"
+            app:itemWidth="40dp"
+            app:lineColor="@color/gray"
+            app:lineWidth="1dp"
+            app:viewType="rectangle" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:backgroundTint="@color/colorAccent"
+            android:layout_marginTop="24dp"
+            android:text="@string/tasdiqlash"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

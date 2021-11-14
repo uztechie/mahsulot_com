@@ -100,6 +100,24 @@ dependencies {
     // Architectural Components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
+    //crash reporter
+    implementation 'com.balsikandar.android:crashreporter:1.1.0'
+
+    implementation 'com.github.Fuadafdhal:Auto-Image-Slider:1.0'
+
+    implementation 'com.cepheuen.elegant-number-button:lib:1.0.3'
+
+    //youtube player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //phone masked edittext
+    implementation 'com.github.pinball83:masked-edittext:1.0.4'
+
+    //verification code
+    implementation 'com.chaos.view:pinview:1.4.4'
+
 
 
 

@@ -22,6 +22,8 @@ import uz.techie.mahsulot.R
 import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.ui.fragments.HomeFragment
 import uz.techie.mahsulot.ui.fragments.SliderFragment
+import uz.techie.mahsulot.util.Utils
+import java.lang.IllegalArgumentException
 
 
 class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
@@ -33,6 +35,8 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
         private const val TAG = "ProductAdapter"
         const val HEADER = 1
         const val BODY = 2
+        const val TOP_PRODUCT = 3
+
     }
 
 
@@ -40,7 +44,7 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
 
         fun bindProduct(product: Product){
             itemView.apply {
-                adapter_product_price.text = "${product.price}"
+                adapter_product_price.text = "${product.price?.let { Utils.toMoney(it) }} so'm"
                 adapter_product_title.text = product.name
 
                 Glide.with(this)
@@ -53,11 +57,14 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
                 Log.d("TAG", "onBindViewHolder: size "+itemCount)
             }
         }
+
+
         val fragmantContainer = itemView.findViewById<FrameLayout>(R.id.fragment_container)
+        val topProductContainer = itemView.findViewById<FrameLayout>(R.id.top_product_container)
 
         init {
             itemView.setOnClickListener {
-                if (bindingAdapterPosition != 0){
+                if (differ.currentList[bindingAdapterPosition].id != null){
                     onOpenFragment.onItemClick(differ.currentList[bindingAdapterPosition])
                 }
             }
@@ -86,9 +93,16 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
             val view:View  = LayoutInflater.from(parent.context).inflate(R.layout.container_fragment_slider, parent, false)
             return ProductViewHolder(view)
         }
-        else {
+        else if (viewType == TOP_PRODUCT){
+            val view:View  = LayoutInflater.from(parent.context).inflate(R.layout.top_product_container, parent, false)
+            return ProductViewHolder(view)
+        }
+        else if (viewType == BODY){
             val view:View  = LayoutInflater.from(parent.context).inflate(R.layout.adapter_product, parent, false)
             return ProductViewHolder(view)
+        }
+        else{
+            return throw IllegalArgumentException("Invalid")
         }
 
 
@@ -98,8 +112,12 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
         Log.d(TAG, "onBindViewHolder: viewtype "+getItemViewType(position))
 
         if (getItemViewType(position) == HEADER){
-            onOpenFragment.openFragment(holder.fragmantContainer.id)
+            onOpenFragment.openFragment(holder.fragmantContainer.id, HEADER)
         }
+        else if (getItemViewType(position) == TOP_PRODUCT){
+            onOpenFragment.openFragment(holder.topProductContainer.id, TOP_PRODUCT)
+        }
+
         else{
             val product = differ.currentList[position]
             holder.bindProduct(product)
@@ -117,11 +135,14 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
 
     override fun getItemViewType(position: Int): Int {
         Log.d(TAG, "getItemViewType: "+position)
-        Log.d(TAG, "getItemViewType: ")
+        Log.d(TAG, "getItemViewType: type "+differ.currentList[position].viewType)
         if (differ.currentList[position].viewType == HEADER){
             return HEADER
         }
-        else{
+        else if (differ.currentList[position].viewType == TOP_PRODUCT){
+            return TOP_PRODUCT
+        }
+        else {
             return BODY
         }
 
@@ -130,7 +151,7 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
 
 
     interface OnOpenFragment{
-        fun openFragment(viewTypeId:Int)
+        fun openFragment(view:Int, viewType: Int)
         fun onItemClick(product: Product)
     }
 

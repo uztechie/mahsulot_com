@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="gray">#2C2C2C</color>
+    <color name="lightGrayAlpha">#8DCFCFCF</color>
+    <color name="lightGray">#B1B1B1</color>
+    <color name="gray">#676666</color>
     <color name="colorAccent">#060DD9</color>
     <color name="colorSecondary">#d96f06</color>
     <color name="background_color">#F3F3FF</color>

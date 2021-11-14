@@ -1,23 +1,41 @@
 package uz.techie.mahsulot
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Color
+import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
-import android.view.Window
+import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.internal.ContextUtils.getActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import uz.techie.mahsulot.data.MahsulotViewModel
+import uz.techie.mahsulot.dialog.InternetDialog
+import uz.techie.mahsulot.receiver.InternetReceiver
+import uz.techie.mahsulot.util.Constants
+import uz.techie.mahsulot.util.Utils
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    lateinit var internetReceiver: MainInternetReceiver
+    lateinit var internetDialog: InternetDialog
+
     lateinit var viewModel:MahsulotViewModel
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -26,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(MahsulotViewModel::class.java)
+        viewModel.loadProducts()
+        viewModel.loadCategories()
+
+        internetReceiver = MainInternetReceiver()
+        internetDialog = InternetDialog(this)
 
 
         val navHostFragment =
@@ -47,11 +70,62 @@ class MainActivity : AppCompatActivity() {
 //                supportActionBar!!.show()
 //            }
 
+            if (destination.id == R.id.productDetailsFragment){
+                bottomNavigationView.visibility = View.GONE
+            }
+            else{
+                bottomNavigationView.visibility = View.VISIBLE
+            }
+
         }
 
     }
 
+    fun updateStatusLight() {
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = resources.getColor(R.color.white)
+    }
 
+    fun updateStatusBarDark() { // Color must be in hexadecimal fromat
+
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = resources.getColor(R.color.colorAccent)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("android.net.wifi.WIFI_STATE_CHANGED")
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        registerReceiver(internetReceiver, intentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(internetReceiver)
+    }
+
+
+
+   inner class MainInternetReceiver: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            context?.let {
+                if (Utils.isNetworkAvailable(it)){
+                    Log.d("TAG", "onReceive: should hide ")
+                    internetDialog.dismiss()
+                    viewModel.loadProducts()
+                    viewModel.loadCategories()
+                }
+                else{
+                    internetDialog.show()
+                }
+            }
+
+        }
+    }
 
 
 }

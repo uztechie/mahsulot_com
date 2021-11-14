@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
+
 data class Product(
      val id: Int? = null,
      val remained:Int? = null,

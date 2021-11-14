@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="@color/white"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/custom_toolbar"/>
+
+    <ScrollView
+        android:layout_below="@+id/include"
+        android:layout_above="@+id/details_buy_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.afdhal_fa.imageslider.ImageSlider
+                android:visibility="gone"
+                android:id="@+id/imageSlide"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:iss_auto_cycle="false"
+                app:iss_delay="0"
+                app:iss_period="1000"
+                app:iss_placeholder="@drawable/no_image"
+                app:iss_error_image="@drawable/no_image"
+                app:iss_image_scaleType="centerCrop"
+                app:iss_title_color="@color/purple_500"
+                app:iss_with_title="false"
+                app:iss_with_background="false"
+                app:iss_title_gravity="center"
+                app:iss_title_background="@drawable/gradient" />
+
+            <include
+                android:layout_marginTop="12dp"
+                android:layout_height="400dp"
+                android:layout_width="match_parent"
+                layout="@layout/layout_islider_image"/>
+
+
+
+            <TextView
+                android:text="Mahsulot haqida"
+                android:id="@+id/details_title"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:text="Mahsulot haqida"
+                android:id="@+id/details_short_desc"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/gray"/>
+
+
+            <LinearLayout
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginRight="4dp"
+                    android:text="259000 so'm"
+                    android:id="@+id/details_price"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:gravity="right"
+                    android:layout_marginRight="4dp"
+                    android:text="Qoldi: 14 ta"
+                    android:id="@+id/details_remained"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray"/>
+            </LinearLayout>
+
+            <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                android:id="@+id/elegantNumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                app:backGroundColor="@color/colorAccent"
+                app:textSize="8sp"
+                app:initialNumber="1"
+                android:layout_gravity="right"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="16dp"/>
+
+
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:visibility="gone"
+                android:layout_marginTop="24dp"
+                android:id="@+id/youtube_player_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:autoPlay="false"
+                app:showSeekBar="true"
+                app:showVideoCurrentTime="true"
+                app:showVideoDuration="true"
+                app:showYouTubeButton="false"
+                app:showFullScreenButton="true" />
+
+
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/details_full_desc_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginHorizontal="12dp"
+                    app:backgroundTint="@color/background_color"
+                    android:text="@string/batafsil"
+                    android:textColor="@color/black"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    app:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    app:iconTint="@color/black"
+                    app:iconGravity="textEnd"
+                    android:layout_marginTop="24dp" />
+
+                <TextView
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:id="@+id/details_full_desc_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/details_buy_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cornerRadius="0dp"
+        android:background="@drawable/button_bg"
+        android:text="@string/harid_qilish"
+        android:textColor="@drawable/button_text_color"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:layout_alignParentBottom="true" />
+
+
+
+</RelativeLayout>
