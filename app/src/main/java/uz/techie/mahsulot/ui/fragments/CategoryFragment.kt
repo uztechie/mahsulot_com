@@ -45,7 +45,6 @@ class CategoryFragment:Fragment(R.layout.fragment_category), CategoryAdapter.Cat
 
         categoryAdapter = CategoryAdapter(this)
         initToolbar()
-        (activity as MainActivity).updateStatusLight()
 
         gridLayoutManager = GridLayoutManager(requireContext(), 3)
         category_recyclerview.setHasFixedSize(true)

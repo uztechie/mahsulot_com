@@ -4,6 +4,7 @@ import uz.techie.mahsulot.db.MahsulotDao
 import uz.techie.mahsulot.db.MahsulotDatabase
 import uz.techie.mahsulot.model.User
 import uz.techie.mahsulot.network.RetrofitApi
+import uz.techie.mahsulot.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,6 +21,42 @@ class MahsulotRepository
     suspend fun loadProductsByCategory(catId:Int) = retrofitApi.loadProductsByCategory(catId)
 
     suspend fun searchProducts(text:String) = retrofitApi.searchProducts(text)
+
+    suspend fun loadTopProducts() = retrofitApi.loadTopProducts()
+
+    suspend fun loadBanners() = retrofitApi.loadBanners()
+
+    suspend fun sendSms(phone:String) = retrofitApi.sendSms(Constants.MY_TOKEN, phone)
+
+    suspend fun checkSms(phone: String, code:String) = retrofitApi.checkSmsCode(Constants.MY_TOKEN, phone, code)
+
+    suspend fun registerUser(
+        phone: String,
+        firstName:String,
+        lastname:String,
+        birthday:String,
+        gender:String
+    ) = retrofitApi.registerUser(Constants.MY_TOKEN, phone, firstName, lastname, birthday, gender)
+
+
+    suspend fun loadProfile(token:String) = retrofitApi.loadProfile(token)
+
+    //streams
+
+    suspend fun createStream(
+        token: String,
+        title:String,
+        url:String,
+        status:String,
+        productId:Int,
+        sellerId:Int
+    ) = retrofitApi.createStream(token, title, url, status, productId, sellerId)
+
+    suspend fun loadStreams(token: String) = retrofitApi.loadStreams(token)
+
+
+
+    //database
 
     suspend fun insertUser(user: User) = mahsulotDao.insertUser(user)
 

@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.ISliderAdapter
+import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.model.ISliderModel
 
 class IsliderImage(val activity: Activity, val view:View) {
@@ -30,7 +31,7 @@ class IsliderImage(val activity: Activity, val view:View) {
     private val sliderDelay:MutableLiveData<Long> = MutableLiveData(3000)
     private val autoStartLive:MutableLiveData<Boolean> = MutableLiveData(true)
 
-    private var sliderList = mutableListOf<ISliderModel>()
+    private var sliderList = mutableListOf<Banner>()
 
 
     init {
@@ -55,7 +56,6 @@ class IsliderImage(val activity: Activity, val view:View) {
 
             override fun onPageSelected(position: Int) {
                 addBottomDots(sliderList.size, position)
-                tvTitle.text = sliderList[position].title
 
             }
 
@@ -71,14 +71,13 @@ class IsliderImage(val activity: Activity, val view:View) {
 
     }
 
-    fun setData(list:MutableList<ISliderModel>){
+    fun setData(list:MutableList<Banner>){
         sliderAdapter.setData(list)
         sliderList.clear()
         sliderList.addAll(list)
 
         if (sliderList.isNotEmpty()){
             addBottomDots(sliderList.size, 0)
-            tvTitle.text = sliderList[0].title
         }
 
 

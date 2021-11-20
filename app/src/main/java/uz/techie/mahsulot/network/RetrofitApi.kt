@@ -1,11 +1,9 @@
 package uz.techie.mahsulot.network
 
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Query
-import uz.techie.mahsulot.model.Category
-import uz.techie.mahsulot.model.Product
-import uz.techie.mahsulot.model.ProductResponse
+import retrofit2.http.*
+import uz.techie.mahsulot.model.*
+import uz.techie.mahsulot.util.Constants
 
 interface RetrofitApi {
 
@@ -26,6 +24,71 @@ interface RetrofitApi {
     suspend fun searchProducts(
         @Query("search") searchText:String
     ):Response<List<Product>>
+
+    @GET("api/products-teen-list/")
+    suspend fun loadTopProducts(): Response<List<Product>>
+
+    @GET("api/slider-list/")
+    suspend fun loadBanners(): Response<MutableList<Banner>>
+
+
+    @FormUrlEncoded
+    @POST("api/send-sms/")
+    suspend fun sendSms(
+        @Header("MyToken") myToken:String,
+        @Field("phone_number") phone:String
+    ):Response<SmsResponse>
+
+
+    @FormUrlEncoded
+    @POST("api/check-code/")
+    suspend fun checkSmsCode(
+        @Header("MyToken") myToken:String,
+        @Field("phone_number") phone: String,
+        @Field("key") code: String,
+
+    ):Response<SmsResponse>
+
+
+    @FormUrlEncoded
+    @POST("api/register/")
+    suspend fun registerUser(
+        @Header("MyToken") myToken:String,
+        @Field("phone_number") phone: String,
+        @Field("first_name") first_name: String,
+        @Field("last_name") last_name: String,
+        @Field("birthday") birthday: String,
+        @Field("gender") gender: String,
+
+    ):Response<SmsResponse>
+
+
+    @GET("api/profiles/")
+    suspend fun loadProfile(
+        @Header("Authorization") token:String
+    ):Response<ProfileResponse>
+
+
+    //stream
+
+    @FormUrlEncoded
+    @POST("api/streams-create/")
+    suspend fun createStream(
+        @Header("Authorization") token:String,
+        @Field("name") title:String,
+        @Field("url") url:String,
+        @Field("status") status:String,
+        @Field("product_id") product_id:Int,
+        @Field("seller_id") seller_id:Int,
+    ):Response<StreamResponse>
+
+    @GET("api/streams-list/")
+    suspend fun loadStreams(
+        @Header("Authorization") token:String
+    ):Response<List<Stream>>
+
+
+
 
 
 

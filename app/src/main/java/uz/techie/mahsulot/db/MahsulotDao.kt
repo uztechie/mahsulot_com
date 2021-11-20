@@ -1,6 +1,8 @@
 package uz.techie.mahsulot.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import uz.techie.mahsulot.model.User
 import javax.inject.Singleton
 
@@ -14,6 +16,6 @@ interface MahsulotDao {
     suspend fun deleteUser()
 
     @Query("select * from user limit 1")
-    fun getUser():User
+    fun getUser():LiveData<User>
 
 }

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:background="@color/background_color"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/custom_toolbar"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:background="@drawable/layout_stroke"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp">
+            <com.google.android.material.textfield.TextInputLayout
+                app:errorEnabled="true"
+                android:hint="@string/ismingiz"
+                app:elevation="2dp"
+                app:boxStrokeWidth="0dp"
+                app:hintEnabled="true"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxBackgroundColor="@color/background_color"
+                app:boxStrokeColor="@android:color/transparent"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/text"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                android:textColorHint="@color/gray"
+                android:id="@+id/register_name_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/register_name"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondary"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                app:errorEnabled="true"
+                android:hint="@string/familiyangiz"
+                app:elevation="2dp"
+                app:boxStrokeWidth="0dp"
+                app:hintEnabled="true"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxBackgroundColor="@color/background_color"
+                app:boxStrokeColor="@android:color/transparent"
+                android:layout_marginTop="0dp"
+                android:layout_below="@id/text"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                android:textColorHint="@color/gray"
+                android:id="@+id/register_lastname_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/register_lastname"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondary"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <RadioGroup
+                android:orientation="horizontal"
+                android:layout_marginTop="0dp"
+                android:id="@+id/register_radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/register_radio_male"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:text="@string/erkak"
+                    android:textColor="@drawable/radio_gender_text"
+                    android:checked="true"
+                    android:background="@drawable/radio_gender_bg"
+                    android:gravity="center"/>
+
+                <RadioButton
+                    android:layout_marginStart="16dp"
+                    android:id="@+id/register_radio_female"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:button="@android:color/transparent"
+                    android:text="@string/ayol"
+                    android:textColor="@drawable/radio_gender_text"
+                    android:background="@drawable/radio_gender_bg"
+                    android:gravity="center"/>
+
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                app:errorEnabled="true"
+                android:hint="@string/tug_ulgan_sanangiz"
+                app:boxStrokeWidth="0dp"
+                app:hintEnabled="true"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxBackgroundColor="@color/background_color"
+                app:boxStrokeColor="@android:color/transparent"
+                android:layout_marginTop="12dp"
+                android:layout_below="@id/text"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                android:textColorHint="@color/gray"
+                android:id="@+id/register_birhday_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView
+                    android:editable="false"
+                    android:id="@+id/register_birhday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:cornerRadius="12dp"
+                android:layout_marginTop="30dp"
+                android:text="Saqlash"
+                android:textAllCaps="false"
+                android:textSize="16sp"/>
+
+            <include
+                layout="@layout/progress_button"
+                android:layout_height="50dp"
+                android:layout_width="match_parent"/>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+
+
+</LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:background="@color/white"
+    android:background="@color/background_color"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -10,24 +10,167 @@
     <include
         layout="@layout/custom_toolbar"/>
 
-    <LinearLayout
-        android:padding="16dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <com.google.android.material.button.MaterialButton
-            app:elevation="4dp"
-            android:id="@+id/cabinet_login_btn"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:backgroundTint="@color/background_color"
-            android:backgroundTint="@color/background_color"
-            android:text="Kirish yoki Ro'yxatdan o'tish"
-            android:textColor="@color/black"
-            android:textAllCaps="false"
-            android:gravity="start|center"
-            app:cornerRadius="12dp"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                app:elevation="4dp"
+                android:id="@+id/cabinet_login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:backgroundTint="@color/light_blue"
+                android:text="Kirish yoki Ro'yxatdan o'tish"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_login"
+                app:iconSize="18dp"
+                app:iconTint="@color/white"
+                app:cornerRadius="12dp"/>
+
+
+            <LinearLayout
+                android:id="@+id/cabinet_private_layout"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/layout_stroke_white"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_private_info"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="@string/shaxsiy_ma_lumotlar"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_withdraw"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="@string/mablag_ni_yechish"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_profile"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="@string/xisobotlar"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cabinet_info_layout"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/layout_stroke_white"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_products"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="@string/mahsulotlar"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_stream"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="Oqim"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_statistics"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="@string/statistika"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_concurs"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="@string/konkurs"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:drawableTint="@color/gray"
+                    android:id="@+id/cabinet_marja_market"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="16sp"
+                    android:text="@string/marja_market"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                app:elevation="4dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/cabinet_logout_btn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:backgroundTint="@color/colorAccent"
+                android:text="@string/chiqish"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_logout"
+                app:iconSize="18dp"
+                app:iconTint="@color/white"
+                app:cornerRadius="12dp"/>
+
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
 
 
 

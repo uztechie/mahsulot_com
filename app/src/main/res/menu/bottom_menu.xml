@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_categories"/>
 
     <item
-        android:id="@+id/topProductFragment"
+        android:id="@+id/registerFragment"
         android:title="@string/savdo"
         android:icon="@drawable/ic_baseline_shopping_cart_24"/>
 

@@ -7,12 +7,13 @@
         android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
+            app:titleCentered="true"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            android:background="@color/background_color"
+            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
             app:layout_scrollFlags="scroll|enterAlways" />
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -8,10 +8,11 @@ data class User(
 
     @PrimaryKey
     val id:Int,
-    val name:String? = null,
-    val lastname:String? = null,
-    val token:String? = null,
     val phone:String? = null,
-    val birthdate:String? = null,
+    val birthday:String? = null,
     val gender:String? = null,
+    val first_name:String? = null,
+    val last_name:String? = null,
+    val token:String? = null,
+    val bot_token:String? = null
 )

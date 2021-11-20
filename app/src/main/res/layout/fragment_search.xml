@@ -9,13 +9,13 @@
     android:orientation="vertical">
 
     <ImageView
-        app:tint="@color/gray"
+        app:tint="@color/colorSecondary"
         android:padding="4dp"
         android:id="@+id/search_close_btn"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/ic_baseline_close_24"
+        android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintBottom_toBottomOf="@+id/search_searchview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_searchview" />

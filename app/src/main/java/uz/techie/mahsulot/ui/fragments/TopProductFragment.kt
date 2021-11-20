@@ -39,7 +39,7 @@ class TopProductFragment:Fragment(R.layout.fragment_top_product) {
             adapter = topProductAdapter
         }
 
-        viewModel.products.observe(viewLifecycleOwner, Observer { response->
+        viewModel.topProducts.observe(viewLifecycleOwner, Observer { response->
             when (response) {
                 is Resource.Success -> {
                     response.data?.let { productsResponse ->

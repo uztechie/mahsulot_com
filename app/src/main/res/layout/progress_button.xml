@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="1dp">
+
+    <RelativeLayout
+        android:background="@color/colorAccent"
+        android:id="@+id/progress_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/progress_button_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/saqlash"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"/>
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress_button_progressbar"
+            android:layout_marginRight="16dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/progress_button_title"
+            style="?android:progressBarStyleSmall"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:indeterminateTintMode="src_atop"/>
+
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

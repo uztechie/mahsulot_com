@@ -1,32 +1,101 @@
 package uz.techie.mahsulot.ui.fragments
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.custom_toolbar.*
 import kotlinx.android.synthetic.main.fragment_cabinet.*
+import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import uz.techie.mahsulot.MainActivity
 import uz.techie.mahsulot.R
+import uz.techie.mahsulot.data.MahsulotViewModel
+import uz.techie.mahsulot.dialog.ConfirmDialog
+import uz.techie.mahsulot.model.User
+import uz.techie.mahsulot.util.Utils
+import java.util.*
 
+@AndroidEntryPoint
 class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
-
+    private val viewModel:MahsulotViewModel by viewModels()
+    private var user:User? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initToolbar()
-        (activity as MainActivity).updateStatusLight()
+
+        viewModel.getUser().observe(viewLifecycleOwner, Observer {
+            user = it
+            if (user == null){
+                cabinet_private_layout.visibility = View.GONE
+                cabinet_login_btn.visibility = View.VISIBLE
+                cabinet_logout_btn.visibility = View.GONE
+            }
+            else{
+                cabinet_private_layout.visibility = View.VISIBLE
+                cabinet_login_btn.visibility = View.GONE
+                cabinet_logout_btn.visibility = View.VISIBLE
+            }
+        })
+
+
+
+
+
+
 
         cabinet_login_btn.setOnClickListener {
             findNavController().navigate(CabinetFragmentDirections.actionGlobalLoginFragment())
         }
 
+        cabinet_logout_btn.setOnClickListener {
+            val confirmDialog = ConfirmDialog(requireContext(), object :
+                ConfirmDialog.ConfirmDialogListener {
+                override fun onOkClick() {
+                    logout()
+                }
+            })
+
+            confirmDialog.show()
+            confirmDialog.setTitle(getString(R.string.tizimdan_chiqish))
+            confirmDialog.setMessage(getString(R.string.siz_rostdan_chiqmoqchimisiz))
+
+        }
+
+        cabinet_profile.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToProfileFragment())
+        }
+
+        cabinet_products.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToProductStreamFragment())
+        }
+
+        cabinet_stream.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToStreamFragment())
+        }
 
     }
 
-    private fun initToolbar(){
+    private fun logout() {
+        viewModel.deleteUser()
+        cabinet_private_layout.visibility = View.GONE
+        cabinet_login_btn.visibility = View.VISIBLE
+        cabinet_logout_btn.visibility = View.GONE
+    }
 
+    private fun initToolbar(){
+        toolbar_layout.setBackgroundColor(resources.getColor(R.color.background_color))
         toolbar_title.text = getString(R.string.kabinet)
         toolbar_title.visibility = View.VISIBLE
 
@@ -39,5 +108,6 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
         }
 
     }
+
 
 }

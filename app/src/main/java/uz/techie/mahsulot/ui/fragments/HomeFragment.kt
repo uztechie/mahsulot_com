@@ -1,8 +1,11 @@
 package uz.techie.mahsulot.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -12,6 +15,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import uz.techie.mahsulot.MainActivity
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.ProductAdapter
@@ -27,21 +32,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var viewModel: MahsulotViewModel
     private val TAG = "HomeFragment"
     private val TAG2 = "FFFFFFFFFF"
-    lateinit var gridLayoutManager : GridLayoutManager
+    lateinit var gridLayoutManager: GridLayoutManager
     lateinit var infoDialog: InfoDialog
-
-
+    private var products = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG2, "onCreate: ")
-        Log.d(TAG2, "onCreate bundle: "+savedInstanceState)
-
-
-
-
+        Log.d(TAG2, "onCreate bundle: " + savedInstanceState)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.d(TAG2, "onCreateView: ")
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +57,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         Log.d(TAG2, "onViewCreated: ")
 
         (activity as MainActivity).setSupportActionBar(toolbar)
-        (activity as MainActivity).updateStatusBarDark()
 
         viewModel = (activity as MainActivity).viewModel
 
@@ -58,59 +65,81 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val sliderFragment = SliderFragment()
         val topProductFragment = TopProductFragment()
 
-        productAdapter = ProductAdapter(object : ProductAdapter.OnOpenFragment{
-            override fun openFragment(viewId: Int, viewType:Int) {
-                try {
-                    Log.d(TAG, "openFragment: try")
-                    val fragmentManager = parentFragmentManager
-                    if (sliderFragment.isAdded){
-                        Log.d(TAG, "openFragment: isAdded")
-                        fragmentManager.popBackStackImmediate(SliderFragment::class.simpleName, 0)
-                    }
-                    else{
+        productAdapter = ProductAdapter(object : ProductAdapter.OnOpenFragment {
+            override fun openFragment(viewId: Int, viewType: Int) {
 
-                        if (viewType == ProductAdapter.HEADER){
-                            Log.d(TAG, "openFragment: isNotAdded")
-                            fragmentManager.beginTransaction()
-                                .add(viewId, sliderFragment)
-                                .commitAllowingStateLoss()
+                if (viewType == ProductAdapter.HEADER) {
+                    try {
+                        Log.d(TAG, "openFragment: try")
+                        val fragmentManager = parentFragmentManager
+                        if (sliderFragment.isAdded) {
+                            Log.d(TAG, "openFragment: isAdded")
+                            fragmentManager.popBackStackImmediate(
+                                SliderFragment::class.simpleName,
+                                0
+                            )
                         }
-                        else if (viewType == ProductAdapter.TOP_PRODUCT){
-                            Log.d(TAG, "openFragment: isNotAdded")
-                            fragmentManager.beginTransaction()
-                                .add(viewId, topProductFragment)
-                                .commitAllowingStateLoss()
-                        }
+                        fragmentManager.beginTransaction()
+                            .replace(viewId, sliderFragment)
+                            .commitAllowingStateLoss()
 
+
+                    } catch (e: Exception) {
+                        Log.d(TAG, "openFragment: error " + e.message)
+                        e.printStackTrace()
                     }
-                }catch (e:Exception){
-                    Log.d(TAG, "openFragment: error "+e.message)
-                    e.printStackTrace()
                 }
+                else if (viewType == ProductAdapter.TOP_PRODUCT) {
+                    try {
+                        Log.d(TAG, "openFragment: try")
+                        val fragmentManager = parentFragmentManager
+                        if (topProductFragment.isAdded) {
+                            Log.d(TAG, "D")
+                            fragmentManager.popBackStackImmediate(
+                                TopProductFragment::class.simpleName,
+                                0
+                            )
+                        }
+                        Log.d(TAG, "openFragment: isNotAdded")
+                        Log.d(TAG, "openFragment: viewId "+viewId)
+                        fragmentManager.beginTransaction()
+                            .replace(viewId, topProductFragment)
+                            .commitAllowingStateLoss()
+
+
+                    } catch (e: Exception) {
+                        Log.d(TAG, "openFragment: error " + e.message)
+                        e.printStackTrace()
+                    }
+                }
+
 
             }
 
             override fun onItemClick(product: Product) {
-                Log.d(TAG, "onItemClick: "+product.id)
-                findNavController().navigate(HomeFragmentDirections.actionGlobalProductDetailsFragment(product))
+                Log.d(TAG, "onItemClick: " + product.id)
+                findNavController().navigate(
+                    HomeFragmentDirections.actionGlobalProductDetailsFragment(
+                        product
+                    )
+                )
             }
 
         })
-        productAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
 
         gridLayoutManager = GridLayoutManager(requireContext(), 2)
-        gridLayoutManager.spanSizeLookup = object :GridLayoutManager.SpanSizeLookup(){
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
 
-                Log.d(TAG, "getSpanSize: "+productAdapter.getItemViewType(position))
-                Log.d(TAG, "getSpanSize:  "+productAdapter.getItemViewType(position))
+                Log.d(TAG, "getSpanSize: " + productAdapter.getItemViewType(position))
+                Log.d(TAG, "getSpanSize:  " + productAdapter.getItemViewType(position))
 
-                if (productAdapter.getItemViewType(position)==ProductAdapter.HEADER
-                    || productAdapter.getItemViewType(position)==ProductAdapter.TOP_PRODUCT){
+                if (productAdapter.getItemViewType(position) == ProductAdapter.HEADER
+                    || productAdapter.getItemViewType(position) == ProductAdapter.TOP_PRODUCT
+                ) {
                     return 2
-                }
-                else{
+                } else {
                     return 1
                 }
             }
@@ -121,14 +150,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         product_recyclerview.apply {
             setHasFixedSize(true)
             adapter = productAdapter
-//            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             layoutManager = gridLayoutManager
         }
 
 
+        products.add(0,Product(viewType = ProductAdapter.HEADER))
+        products.add(1, Product(viewType = ProductAdapter.TOP_PRODUCT))
 
 
-        productAdapter.differ.submitList(listOf(Product(viewType = ProductAdapter.HEADER), Product(viewType = ProductAdapter.TOP_PRODUCT)))
+        productAdapter.differ.submitList(products)
 
 
         viewModel.products.observe(viewLifecycleOwner, Observer { response ->
@@ -141,11 +171,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     product_swipe_refresh.isRefreshing = false
                     hideErrorText()
                     hideProgressbar()
-                    response.data?.let { productsResponse->
-                        val productList = mutableListOf<Product?>()
-                        productList.addAll(productsResponse)
-                        productList.add(0,Product(viewType = ProductAdapter.HEADER))
+                    response.data?.let { productsResponse ->
+                        val productList = mutableListOf<Product>()
+                        productList.add(0, Product(viewType = ProductAdapter.HEADER))
                         productList.add(1,Product(viewType = ProductAdapter.TOP_PRODUCT))
+
+
+//                        productsResponse.forEach {
+//                            if (it.status == "True") {
+//                                Log.d(TAG, "onViewCreated: status "+it)
+//                                productList.add(it)
+//                            }
+//                        }
+                        productList.addAll(productsResponse.filter { product ->
+                             product.status == "True"
+                        })
                         productAdapter.differ.submitList(productList)
                     }
                 }
@@ -173,9 +213,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun initSwipeRefresh(){
-        product_swipe_refresh.setOnRefreshListener(object :SwipeRefreshLayout.OnRefreshListener{
+    private fun initSwipeRefresh() {
+        product_swipe_refresh.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
+                viewModel.loadBanners()
+                viewModel.loadTopProducts()
                 viewModel.loadProducts()
             }
 
@@ -205,7 +247,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-//        Log.d(TAG2, "onResume: ")
+        Log.d(TAG2, "onResume: ")
 //        val lastPosition = Constants.homeRecyclerPosition
 //        Log.d(TAG, "onResume: lastPosition "+lastPosition)
 //        Log.d(TAG, "onResume: listsize "+Constants.productList.size)
@@ -220,6 +262,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //            Log.d(TAG, "onResume: "+product_recyclerview.layoutManager!!.itemCount)
 //        }
 
+        productAdapter.differ.submitList(Constants.productList)
+        product_recyclerview.scrollToPosition(Constants.homeRecyclerPosition)
+
 
     }
 
@@ -227,13 +272,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onPause()
         Log.d(TAG2, "onPause: ")
         Constants.homeRecyclerPosition = gridLayoutManager.findFirstCompletelyVisibleItemPosition()
+
         Constants.homeRecyclerState = product_recyclerview.layoutManager?.onSaveInstanceState()
         Constants.productList = productAdapter.differ.currentList
     }
-
-
-
-
 
 
 }

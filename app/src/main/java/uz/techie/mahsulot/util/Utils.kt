@@ -1,12 +1,18 @@
 package uz.techie.mahsulot.util
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import java.lang.NullPointerException
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Utils {
 
@@ -50,6 +56,20 @@ object Utils {
         }
     }
 
+    fun reformatDate(date: Date):String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        return dateFormat.format(date)
+    }
+
+    fun showMessage(view: View, message: String) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    fun copyTextToClipboard(context: Context, url: String) {
+        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("url", url)
+        clipboardManager.setPrimaryClip(clipData)
+    }
 
 
 }

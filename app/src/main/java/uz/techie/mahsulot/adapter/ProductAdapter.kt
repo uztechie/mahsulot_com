@@ -102,7 +102,7 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
             return ProductViewHolder(view)
         }
         else{
-            return throw IllegalArgumentException("Invalid")
+            return throw Exception("Invalid")
         }
 
 
@@ -120,17 +120,16 @@ class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<Pr
 
         else{
             val product = differ.currentList[position]
-            holder.bindProduct(product)
+            if (product.status!! == "True"){
+                holder.bindProduct(product)
+            }
         }
-
-
-
 
 
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return  differ.currentList.size
     }
 
     override fun getItemViewType(position: Int): Int {

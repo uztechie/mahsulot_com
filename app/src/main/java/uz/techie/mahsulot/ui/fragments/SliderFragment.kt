@@ -1,20 +1,28 @@
 package uz.techie.mahsulot.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.afdhal_fa.imageslider.model.SlideUIModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_slider.*
+import uz.techie.mahsulot.MainActivity
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.SliderAdapter
+import uz.techie.mahsulot.data.MahsulotViewModel
 import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.model.ISliderModel
 import uz.techie.mahsulot.util.IsliderImage
+import uz.techie.mahsulot.util.Resource
 
 class SliderFragment:Fragment(R.layout.fragment_slider) {
 
     lateinit var sliderAdapter: SliderAdapter
+    lateinit var viewModel: MahsulotViewModel
+    private  val TAG = "SliderFragment"
+    lateinit var isliderImage:IsliderImage
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -22,11 +30,25 @@ class SliderFragment:Fragment(R.layout.fragment_slider) {
 
 //        sliderAdapter = SliderAdapter(sliderList())
 //        cardSlider.adapter = sliderAdapter
+        viewModel = (activity as MainActivity).viewModel
 
-        var isliderImage = IsliderImage(requireActivity(),requireView())
+        isliderImage = IsliderImage(requireActivity(),requireView())
         isliderImage.sliderDelay(200)
         isliderImage.autoStart(false)
-        isliderImage.setData(isliderList())
+
+        viewModel.banners.observe(viewLifecycleOwner, Observer { response->
+            Log.d(TAG, "onViewCreated: response "+response.data)
+
+            when(response){
+                is Resource.Success->{
+                    response.data?.let { bannerResponse->
+                        isliderImage.setData(bannerResponse)
+                    }
+                }
+            }
+
+
+        })
 
 
 
@@ -44,10 +66,7 @@ class SliderFragment:Fragment(R.layout.fragment_slider) {
             "https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
         val img4 =
             "https://images.pexels.com/photos/1194760/pexels-photo-1194760.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-        list.add(Banner(1, img1, "title"))
-        list.add(Banner(1, img2, "title"))
-        list.add(Banner(1, img3, "title"))
-        list.add(Banner(1, img4, "title"))
+        list.add(Banner(1, img1))
 
         return list
     }

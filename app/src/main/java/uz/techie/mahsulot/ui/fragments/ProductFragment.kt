@@ -47,7 +47,6 @@ class ProductFragment:Fragment(R.layout.fragment_product){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).updateStatusLight()
         viewModel = (activity as MainActivity).viewModel
 
 
@@ -77,7 +76,12 @@ class ProductFragment:Fragment(R.layout.fragment_product){
                     hideErrorText()
                     hideProgressbar()
                     response.data?.let { productsResponse ->
-                        productAdapter.differ.submitList(productsResponse)
+                        val productList = mutableListOf<Product>()
+                        productList.addAll(productsResponse.filter { product ->
+                            product.status == "True"
+                        })
+
+                        productAdapter.differ.submitList(productList)
                     }
                 }
                 is Resource.Error -> {

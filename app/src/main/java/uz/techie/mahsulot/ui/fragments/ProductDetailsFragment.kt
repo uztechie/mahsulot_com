@@ -4,21 +4,19 @@ import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.afdhal_fa.imageslider.model.SlideUIModel
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.android.synthetic.main.custom_toolbar.*
 import kotlinx.android.synthetic.main.fragment_product_details.*
-import uz.techie.mahsulot.MainActivity
 import uz.techie.mahsulot.R
-import uz.techie.mahsulot.model.ISliderModel
+import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.model.Product
 import uz.techie.mahsulot.util.IsliderImage
 import uz.techie.mahsulot.util.Utils
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-
-import androidx.annotation.NonNull
 
 
 class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
@@ -26,9 +24,17 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).updateStatusLight()
-
         product = arguments?.let { ProductDetailsFragmentArgs.fromBundle(it).product }!!
+
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(
+                        ProductDetailsFragmentDirections.actionProductDetailsFragmentToHomeFragment()
+                    )
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
 
         val sliderList = mutableListOf<SlideUIModel>()
@@ -38,10 +44,10 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
         }
         imageSlide.setImageList(sliderList)
 
-        val isliderList = mutableListOf<ISliderModel>()
-        isliderList.add(ISliderModel(product.photo!!))
+        val isliderList = mutableListOf<Banner>()
+        isliderList.add(Banner(id = null, product.photo!!))
         product.gallary!!.forEach { gallery->
-            isliderList.add(ISliderModel(gallery.image))
+            isliderList.add(Banner(id = null, gallery.image))
         }
 
 
@@ -134,7 +140,9 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 //        toolbar_title.visibility = View.VISIBLE
 
         toolbar_btnClose.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(
+                ProductDetailsFragmentDirections.actionProductDetailsFragmentToHomeFragment()
+            )
         }
         toolbar_btnSearch.setOnClickListener {
             findNavController().navigate(ProductDetailsFragmentDirections.actionGlobalSearchFragment())
@@ -143,10 +151,5 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
     }
 
 
-
-    override fun onPause() {
-        super.onPause()
-        (activity as MainActivity).updateStatusBarDark()
-    }
 
 }

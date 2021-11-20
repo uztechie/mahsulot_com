@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.ContextUtils.getActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,19 +34,20 @@ import uz.techie.mahsulot.util.Utils
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private var isFirstLaunch = true
     lateinit var internetReceiver: MainInternetReceiver
     lateinit var internetDialog: InternetDialog
 
     lateinit var viewModel:MahsulotViewModel
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    lateinit var bottomNavigationView:BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        updateStatusLight()
         viewModel = ViewModelProvider(this).get(MahsulotViewModel::class.java)
-        viewModel.loadProducts()
-        viewModel.loadCategories()
 
         internetReceiver = MainInternetReceiver()
         internetDialog = InternetDialog(this)
@@ -58,6 +60,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.homeFragment)
         )
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
         bottomNavigationView.setupWithNavController(navController)
 
@@ -84,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     fun updateStatusLight() {
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = resources.getColor(R.color.white)
+        window.statusBarColor = resources.getColor(R.color.background_color)
     }
 
     fun updateStatusBarDark() { // Color must be in hexadecimal fromat
@@ -101,6 +105,13 @@ class MainActivity : AppCompatActivity() {
         intentFilter.addAction("android.net.wifi.WIFI_STATE_CHANGED")
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         registerReceiver(internetReceiver, intentFilter)
+
+        viewModel.loadBanners()
+        viewModel.loadTopProducts()
+        viewModel.loadProducts()
+        viewModel.loadCategories()
+
+
     }
 
     override fun onStop() {
@@ -115,9 +126,18 @@ class MainActivity : AppCompatActivity() {
             context?.let {
                 if (Utils.isNetworkAvailable(it)){
                     Log.d("TAG", "onReceive: should hide ")
+
                     internetDialog.dismiss()
-                    viewModel.loadProducts()
-                    viewModel.loadCategories()
+
+                    if (!isFirstLaunch){
+                        viewModel.loadBanners()
+                        viewModel.loadTopProducts()
+                        viewModel.loadProducts()
+                        viewModel.loadCategories()
+                    }
+
+                    isFirstLaunch = false
+
                 }
                 else{
                     internetDialog.show()

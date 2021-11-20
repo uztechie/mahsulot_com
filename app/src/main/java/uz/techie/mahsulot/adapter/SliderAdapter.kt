@@ -27,7 +27,7 @@ class SliderAdapter(val list:List<Banner>):CardSliderAdapter<SliderAdapter.Slide
         val banner = list[position]
         holder.itemView.apply {
             Glide.with(holder.itemView)
-                .load(banner.url)
+                .load(banner.photo)
                 .apply(options)
                 .into(adapter_slider_card_image)
         }

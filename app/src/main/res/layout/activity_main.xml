@@ -8,6 +8,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
     <androidx.fragment.app.FragmentContainerView
         android:layout_above="@id/bottomNavigationView"
         android:id="@+id/navHostFragmentContainer"

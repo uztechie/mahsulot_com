@@ -18,6 +18,9 @@ data class Product(
      val reklama_link:String? = null,
      val youtube_link:String?=null,
      val status:String? = null,
+     val marja_amount:Int? = null,
+     val marja:String? = null,
+     val marja_price:Int? = null,
      val category: List<Int>? = null,
      val viewType:Int? = null
 ):Serializable

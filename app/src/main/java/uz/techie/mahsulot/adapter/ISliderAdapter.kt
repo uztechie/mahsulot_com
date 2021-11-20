@@ -11,12 +11,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.model.Banner
-import uz.techie.mahsulot.model.ISliderModel
 
 class ISliderAdapter:PagerAdapter() {
 
-    private var sliderList = mutableListOf<ISliderModel>()
-    fun setData(sliderList: MutableList<ISliderModel>){
+    private var sliderList = mutableListOf<Banner>()
+    fun setData(sliderList: MutableList<Banner>){
         this.sliderList = sliderList
         notifyDataSetChanged()
     }
@@ -30,7 +29,7 @@ class ISliderAdapter:PagerAdapter() {
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val imageUrl = sliderList[position].imageUrl
+        val imageUrl = sliderList[position].photo
         val view = LayoutInflater.from(container.context).inflate(R.layout.islider_item, container, false)
         val imageView = view.findViewById<ImageView>(R.id.islider_item_imageview)
 
@@ -48,7 +47,7 @@ class ISliderAdapter:PagerAdapter() {
     }
 
     private var options: RequestOptions = RequestOptions()
-        .placeholder(R.drawable.progress_animation)
+        .placeholder(R.drawable.loading)
         .error(R.drawable.no_image)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .priority(Priority.HIGH)

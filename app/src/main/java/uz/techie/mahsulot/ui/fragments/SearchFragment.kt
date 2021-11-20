@@ -66,7 +66,11 @@ class SearchFragment:Fragment(R.layout.fragment_search){
                     hideErrorText()
                     hideProgressbar()
                     response.data?.let { productResponse->
-                        productAdapter.differ.submitList(productResponse)
+                        val productList = mutableListOf<Product>()
+                        productList.addAll(productResponse.filter { product ->
+                            product.status == "True"
+                        })
+                        productAdapter.differ.submitList(productList)
                     }
                 }
                 is Resource.Error ->{

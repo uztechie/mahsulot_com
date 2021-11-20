@@ -1,7 +1,6 @@
 package uz.techie.mahsulot.model
 
 data class Banner(
-    val id: Int,
-    val url: String,
-    val title: String
+    val id: Int?=null,
+    val photo: String?=null,
 )
