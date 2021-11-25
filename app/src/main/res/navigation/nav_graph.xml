@@ -88,6 +88,12 @@
         <action
             android:id="@+id/action_cabinetFragment_to_streamFragment"
             app:destination="@id/streamFragment" />
+        <action
+            android:id="@+id/action_cabinetFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_cabinetFragment_to_privateInfoFragment"
+            app:destination="@id/privateInfoFragment" />
     </fragment>
     <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
     <fragment
@@ -114,7 +120,11 @@
     <fragment
         android:id="@+id/productStreamFragment"
         android:name="uz.techie.mahsulot.ui.fragments.ProductStreamFragment"
-        android:label="ProductStreamFragment" />
+        android:label="ProductStreamFragment" >
+        <action
+            android:id="@+id/action_productStreamFragment_to_streamFragment"
+            app:destination="@id/streamFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchStreamFragment"
         android:name="uz.techie.mahsulot.ui.fragments.SearchStreamFragment"
@@ -127,4 +137,20 @@
         android:id="@+id/streamFragment"
         android:name="uz.techie.mahsulot.ui.fragments.StreamFragment"
         android:label="StreamFragment" />
+    <fragment
+        android:id="@+id/streamStatisticFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.StreamStatisticFragment"
+        android:label="StreamStatisticFragment" />
+    <fragment
+        android:id="@+id/statisticFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.StatisticFragment"
+        android:label="StatisticFragment" />
+    <fragment
+        android:id="@+id/privateInfoFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.PrivateInfoFragment"
+        android:label="PrivateInfoFragment" />
+    <fragment
+        android:id="@+id/purchaseStatisticFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.PurchaseStatisticFragment"
+        android:label="PurchaseStatisticFragment" />
 </navigation>

@@ -1,27 +1,21 @@
 package uz.techie.mahsulot.adapter
 
 import android.content.Context
-import android.graphics.Interpolator
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.BounceInterpolator
 import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.animation.AnimationUtils
-import kotlinx.android.synthetic.main.adapter_stream_product.view.*
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.databinding.AdapterStreamBinding
 import uz.techie.mahsulot.model.Stream
@@ -86,7 +80,7 @@ class StreamAdapter(val mContext: Context, val listener: StreamListener) :
 
 
                 adapterStreamAdTg.setOnClickListener {
-                    stream.reklama_link?.let {
+                    stream.reklama?.let {
                         listener.onClickAdLink(it)
                     }
                 }

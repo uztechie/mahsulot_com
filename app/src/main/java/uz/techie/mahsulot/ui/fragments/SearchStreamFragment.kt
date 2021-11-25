@@ -8,14 +8,17 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_category.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_stream_product.*
 import kotlinx.coroutines.Job
@@ -25,8 +28,12 @@ import kotlinx.coroutines.launch
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.ProductAdapter
 import uz.techie.mahsulot.adapter.ProductStreamAdapter
+import uz.techie.mahsulot.adapter.StreamAdapter
 import uz.techie.mahsulot.data.MahsulotViewModel
+import uz.techie.mahsulot.dialog.ConfirmDialog
+import uz.techie.mahsulot.dialog.CustomProgressDialog
 import uz.techie.mahsulot.model.Product
+import uz.techie.mahsulot.model.Stream
 import uz.techie.mahsulot.util.Resource
 import uz.techie.mahsulot.util.Utils
 
@@ -39,9 +46,14 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
         const val SEARCH_STREAM = 2
     }
 
+    lateinit var searchview: SearchView
     lateinit var productSreamAdapter: ProductStreamAdapter
+    lateinit var streamAdapter: StreamAdapter
+    lateinit var customProgressDialog: CustomProgressDialog
+
     val viewModel by viewModels<MahsulotViewModel>()
     private  val TAG = "SearchFragment"
+    private var token = ""
 
 
 
@@ -52,11 +64,19 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
             searchType = SearchStreamFragmentArgs.fromBundle(it).searchType
         }
 
-        val searchview = view.findViewById<SearchView>(R.id.search_searchview)
+        customProgressDialog = CustomProgressDialog(requireContext())
+
+        searchview = view.findViewById<SearchView>(R.id.search_searchview)
         searchview.requestFocusFromTouch()
         searchview.isIconified = true
         searchview.isFocusable = true
         showKeyboard(searchview.findFocus())
+
+        viewModel.getUser().observe(viewLifecycleOwner, Observer {
+            it.token?.let { mToken->
+                token = "Token $mToken"
+            }
+        })
 
         productSreamAdapter = ProductStreamAdapter(requireContext(), object : ProductStreamAdapter.ProductStreamListener{
             override fun onAdLink(link: String) {
@@ -65,6 +85,17 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
 
             override fun onCreateStream(product: Product) {
 
+            }
+
+        })
+
+        streamAdapter = StreamAdapter(requireContext(), object : StreamAdapter.StreamListener{
+            override fun onClickAdLink(link: String) {
+                openUrl(link)
+            }
+
+            override fun onClickDelete(id: Int) {
+                deleteStream(id)
             }
 
         })
@@ -82,14 +113,27 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                     is Resource.Success ->{
                         hideProgressbar()
                         response.data?.let { productResponse->
-                            productSreamAdapter.differ.submitList(productResponse)
+                            val list = mutableListOf<Product>()
+                            list.addAll(productResponse.filter { stream ->
+                                stream.status == "True"
+                            })
+                            productSreamAdapter.differ.submitList(list)
+
+                            if (list.isEmpty()){
+                                showErrorText(getString(R.string.malumotlar_topilmadi))
+                            }
+                            else{
+                                hideErrorText()
+                            }
                         }
                     }
                     is Resource.Error ->{
                         hideProgressbar()
+                        hideErrorText()
                         Utils.showMessage(requireView(), response.message!!)
                     }
                     is Resource.Loading ->{
+                        hideErrorText()
                         showProgressbar()
                     }
                 }
@@ -97,6 +141,48 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
 
             })
 
+        }
+        else {
+            search_recyclerview.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = streamAdapter
+            }
+
+            viewModel.streams.observe(viewLifecycleOwner, Observer {response ->
+                Log.d(TAG, "onViewCreated: search stream "+response.data)
+                when(response){
+                    is Resource.Success ->{
+                        hideProgressbar()
+                        response.data?.let { streamResponse->
+                            val list = mutableListOf<Stream>()
+                            list.addAll(streamResponse.filter { stream ->
+                                stream.status == "true"
+                            })
+                            streamAdapter.differ.submitList(list)
+
+                            if (list.isEmpty()){
+                                showErrorText(getString(R.string.malumotlar_topilmadi))
+                            }
+                            else{
+                                hideErrorText()
+                            }
+
+                        }
+                    }
+                    is Resource.Error ->{
+                        hideErrorText()
+                        hideProgressbar()
+                        Utils.showMessage(requireView(), response.message!!)
+                    }
+                    is Resource.Loading ->{
+                        hideErrorText()
+                        showProgressbar()
+                    }
+                }
+
+
+            })
         }
 
 
@@ -112,7 +198,13 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                     delay(500)
                     query?.let {
                         if (it.isNotEmpty() || it.isNotBlank()){
-                            viewModel.searchProducts(it)
+                            if (searchType == SEARCH_PRODUCT){
+                                viewModel.searchProducts(it)
+                            }
+                            else{
+                                viewModel.searchStreams(token, it)
+                            }
+
                         }
                     }
                 }
@@ -125,7 +217,12 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                     delay(500)
                     newText?.let {
                         if (it.isNotEmpty() || it.isNotBlank()){
-                            viewModel.searchProducts(it)
+                            if (searchType == SEARCH_PRODUCT){
+                                viewModel.searchProducts(it)
+                            }
+                            else{
+                                viewModel.searchStreams(token, it)
+                            }
                         }
                     }
                 }
@@ -178,6 +275,53 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
             Utils.showMessage(requireView(), getString(R.string.url_mavjud_emas))
         }
     }
+
+
+    private fun deleteStream(id: Int) {
+        val confirmDialog = ConfirmDialog(requireContext(), object : ConfirmDialog.ConfirmDialogListener{
+            override fun onOkClick() {
+                viewModel.deleteStream(token, id)
+                viewModel.streamResponse.observe(viewLifecycleOwner, Observer { response ->
+                    Log.d(TAG, "deleteStream: " + response.data)
+                    when (response) {
+                        is Resource.Loading -> {
+                            customProgressDialog.show()
+                        }
+                        is Resource.Error -> {
+                            customProgressDialog.dismiss()
+                            Utils.showMessage(requireView(), response.message!!)
+                        }
+                        is Resource.Success -> {
+                            customProgressDialog.dismiss()
+                            response.data?.let { streamResponse ->
+                                if (streamResponse.status == 200) {
+                                    Toast.makeText(requireContext(), getString(R.string.oqim_ochirildi), Toast.LENGTH_SHORT).show()
+                                    viewModel.searchStreams(token, searchview.query.toString())
+                                } else {
+                                    Utils.showMessage(requireView(), streamResponse.message!!)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+
+        })
+        confirmDialog.show()
+        confirmDialog.setTitle(getString(R.string.oqimni_ochirish))
+        confirmDialog.setMessage(getString(R.string.siz_rostdan_oqimni_ochirmoq))
+    }
+
+
+    private fun showErrorText(text:String){
+        search_error_tv.visibility = View.VISIBLE
+        search_error_tv.text = text
+    }
+
+    private fun hideErrorText(){
+        search_error_tv.visibility = View.GONE
+    }
+
 
 
 }

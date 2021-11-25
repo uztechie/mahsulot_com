@@ -75,4 +75,21 @@
     <string name="oqimlar">Oqimlar</string>
     <string name="sizda_oqimlar_mavjud_emas">Sizda oqimlar mavjud emas</string>
     <string name="sahifa_nusxalandi">Sahifa nusxalandi</string>
+    <string name="oqim_yaratildi">Oqim yaratildi</string>
+    <string name="oqim_ochirildi">Oqim o\'chirildi</string>
+    <string name="oqimni_ochirish">Oqimni o\'chirish</string>
+    <string name="siz_rostdan_oqimni_ochirmoq">Siz rostdan ham ushbu oqimni o\'chirmoqchimisiz?</string>
+    <string name="malumotlar_topilmadi">Ma\'lumotlar topilmadi!</string>
+    <string name="oqimlar_statistikasi">Oqimlar statistikasi</string>
+    <string name="statistika_mavjud_emas">Statistika mavjud emas!</string>
+    <string name="oqimlar_savdosi">Oqimlar savdosi</string>
+    <string name="umumiy_oqimlar">Umumiy oqimlar</string>
+    <string name="savdo_boyicha">Haridlar bo\'yicha</string>
+    <string name="soni">Soni</string>
+    <string name="holati">Holati</string>
+    <string name="mahsulot">Mahsulot</string>
+    <string name="narxi">Narxi</string>
+    <string name="izoh">Izoh</string>
+    <string name="sana">Sana</string>
+    <string name="savdo_tarixi">Savdo tarixi</string>
 </resources>

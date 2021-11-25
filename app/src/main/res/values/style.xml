@@ -10,4 +10,9 @@
         <item name="android:calendarViewShown">false</item>
     </style>
 
+    <style name="tableTextStyle">
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

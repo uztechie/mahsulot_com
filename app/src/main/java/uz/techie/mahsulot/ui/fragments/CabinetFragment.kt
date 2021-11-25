@@ -85,6 +85,14 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
             findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToStreamFragment())
         }
 
+        cabinet_statistics.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToStatisticFragment())
+        }
+
+        cabinet_private_info.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToPrivateInfoFragment())
+        }
+
     }
 
     private fun logout() {

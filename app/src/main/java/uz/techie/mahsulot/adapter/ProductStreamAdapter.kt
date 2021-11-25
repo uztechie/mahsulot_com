@@ -54,7 +54,7 @@ class ProductStreamAdapter(val mContext: Context, val listener: ProductStreamLis
                     }
                 }
 
-                adapter_stream_product_marja.setOnClickListener {
+                adapter_stream_product_stream.setOnClickListener {
                     listener.onCreateStream(product)
                 }
 

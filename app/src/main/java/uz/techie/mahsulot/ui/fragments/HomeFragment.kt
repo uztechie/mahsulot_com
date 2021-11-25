@@ -25,6 +25,7 @@ import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Product
 import uz.techie.mahsulot.util.Constants
 import uz.techie.mahsulot.util.Resource
+import uz.techie.mahsulot.util.Utils
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -40,6 +41,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onCreate(savedInstanceState)
         Log.d(TAG2, "onCreate: ")
         Log.d(TAG2, "onCreate bundle: " + savedInstanceState)
+
+        Log.d(TAG, "onCreate: phoneee "+Utils.hidePhoneNumber("998999952666"))
     }
 
     override fun onCreateView(

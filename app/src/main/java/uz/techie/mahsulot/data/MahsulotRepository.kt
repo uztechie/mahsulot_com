@@ -54,6 +54,13 @@ class MahsulotRepository
 
     suspend fun loadStreams(token: String) = retrofitApi.loadStreams(token)
 
+    suspend fun deleteStream(token: String, id:Int) = retrofitApi.deleteStream(token, id)
+
+    suspend fun searchStream(token: String, search:String) = retrofitApi.searchStream(token, search)
+
+    suspend fun streamStatistics(token: String) = retrofitApi.streamStatistics(token)
+
+    suspend fun loadOrderStatistics(token: String) = retrofitApi.loadOrderStatistics(Constants.MY_TOKEN, token)
 
 
     //database

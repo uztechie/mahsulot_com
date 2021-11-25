@@ -88,6 +88,30 @@ interface RetrofitApi {
     ):Response<List<Stream>>
 
 
+    @GET("api/streams-delete/{id}")
+    suspend fun deleteStream(
+        @Header("Authorization") token:String,
+        @Path("id") id:Int
+    ):Response<StreamResponse>
+
+    @GET("api/streams-search/")
+    suspend fun searchStream(
+        @Header("Authorization")token: String,
+        @Query("search")searchText: String
+    ):Response<List<Stream>>
+
+    @GET("api/streams-statistic/")
+    suspend fun streamStatistics(
+        @Header("Authorization")token: String
+    ):Response<StreamStatisticResponse>
+
+    @GET("api/order-history/")
+    suspend fun loadOrderStatistics(
+        @Header("MyToken") myToken: String,
+        @Header("Authorization")token: String
+    ):Response<OrderResponse>
+
+
 
 
 

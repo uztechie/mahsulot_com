@@ -1,7 +1,6 @@
 package uz.techie.mahsulot.data
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,25 +18,29 @@ class MahsulotViewModel @Inject constructor(
     private val TAG = "MahsulotViewModel"
 
     //products
-    val products:MutableLiveData<Resource<List<Product>>> = MutableLiveData()
-    val streamProducts:MutableLiveData<Resource<List<Product>>> = MutableLiveData()
-    val topProducts:MutableLiveData<Resource<List<Product>>> = MutableLiveData()
-    val productsByCategory:MutableLiveData<Resource<List<Product>>> = MutableLiveData()
-    val searchProducts:MutableLiveData<Resource<List<Product>>> = MutableLiveData()
-    val categories:MutableLiveData<Resource<List<Category>>> = MutableLiveData()
-    val banners:MutableLiveData<Resource<MutableList<Banner>>> = MutableLiveData()
+    val products: MutableLiveData<Resource<List<Product>>> = MutableLiveData()
+    val streamProducts: MutableLiveData<Resource<List<Product>>> = MutableLiveData()
+    val topProducts: MutableLiveData<Resource<List<Product>>> = MutableLiveData()
+    val productsByCategory: MutableLiveData<Resource<List<Product>>> = MutableLiveData()
+    val searchProducts: MutableLiveData<Resource<List<Product>>> = MutableLiveData()
+    val categories: MutableLiveData<Resource<List<Category>>> = MutableLiveData()
+    val banners: MutableLiveData<Resource<MutableList<Banner>>> = MutableLiveData()
 
     //login
-    val sms:MutableLiveData<Resource<SmsResponse>> = MutableLiveData()
-    val smsConfirmation:MutableLiveData<Resource<SmsResponse>> = MutableLiveData()
-    val registration:MutableLiveData<Resource<SmsResponse>> = MutableLiveData()
+    val sms: MutableLiveData<Resource<SmsResponse>> = MutableLiveData()
+    val smsConfirmation: MutableLiveData<Resource<SmsResponse>> = MutableLiveData()
+    val registration: MutableLiveData<Resource<SmsResponse>> = MutableLiveData()
 
     //profile
-    val profile:MutableLiveData<Resource<ProfileResponse>> = MutableLiveData()
+    val profile: MutableLiveData<Resource<ProfileResponse>> = MutableLiveData()
 
     //streams
-    val streams:MutableLiveData<Resource<List<Stream>>> = MutableLiveData()
+    val streams: MutableLiveData<Resource<List<Stream>>> = MutableLiveData()
+    val streamResponse: MutableLiveData<Resource<StreamResponse>> = MutableLiveData()
+    val streamStatistics: MutableLiveData<Resource<StreamStatisticResponse>> = MutableLiveData()
 
+    //order
+    val orderStatistics: MutableLiveData<Resource<OrderResponse>> = MutableLiveData()
 
 
     fun loadProducts() = viewModelScope.launch {
@@ -61,7 +64,7 @@ class MahsulotViewModel @Inject constructor(
     }
 
 
-    fun loadProductsByCategory(catId:Int) = viewModelScope.launch {
+    fun loadProductsByCategory(catId: Int) = viewModelScope.launch {
         productsByCategory.postValue(Resource.Loading())
         try {
             val response = repository.loadProductsByCategory(catId)
@@ -71,12 +74,12 @@ class MahsulotViewModel @Inject constructor(
         }
     }
 
-    fun searchProducts(text:String) = viewModelScope.launch {
+    fun searchProducts(text: String) = viewModelScope.launch {
         searchProducts.postValue(Resource.Loading())
         try {
-            val  response = repository.searchProducts(text)
+            val response = repository.searchProducts(text)
             searchProducts.postValue(handleProductsResponse(response))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             searchProducts.postValue(Resource.Error(message = e.toString()))
         }
     }
@@ -96,7 +99,7 @@ class MahsulotViewModel @Inject constructor(
         try {
             val response = repository.loadCategories()
             categories.postValue(handleCategoriesResponse(response))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             categories.postValue(Resource.Error(message = e.toString()))
         }
     }
@@ -106,77 +109,136 @@ class MahsulotViewModel @Inject constructor(
         try {
             val response = repository.loadBanners()
             banners.postValue(handleBannerResponse(response))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             banners.postValue(Resource.Error(message = e.toString()))
         }
     }
 
 
-    fun sendSms(phone:String) = viewModelScope.launch {
+    fun sendSms(phone: String) = viewModelScope.launch {
         sms.postValue(Resource.Loading())
         try {
             val response = repository.sendSms(phone)
-             sms.postValue(handleRegistrationResponse(response))
-        }catch (e:Exception){
+            sms.postValue(handleRegistrationResponse(response))
+        } catch (e: Exception) {
             sms.postValue(Resource.Error(message = e.toString()))
         }
     }
 
-    fun confirmSms(phone:String, code:String) = viewModelScope.launch {
+    fun confirmSms(phone: String, code: String) = viewModelScope.launch {
         smsConfirmation.postValue(Resource.Loading())
         try {
             val response = repository.checkSms(phone, code)
             smsConfirmation.postValue(handleRegistrationResponse(response))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             smsConfirmation.postValue(Resource.Error(message = e.toString()))
         }
     }
 
     fun registerUser(
         phone: String,
-        firstName:String,
-        lastname:String,
-        birthday:String,
-        gender:String
+        firstName: String,
+        lastname: String,
+        birthday: String,
+        gender: String
     ) = viewModelScope.launch {
         registration.postValue(Resource.Loading())
         try {
             val response = repository.registerUser(phone, firstName, lastname, birthday, gender)
             registration.postValue(handleRegistrationResponse(response))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             registration.postValue(Resource.Error(message = e.toString()))
         }
 
 
     }
 
-    fun loadProfile(token:String) = viewModelScope.launch {
+    fun loadProfile(token: String) = viewModelScope.launch {
         profile.postValue(Resource.Loading())
         try {
             val response = repository.loadProfile(token)
             profile.postValue(handleProfileResponse(response))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             profile.postValue(Resource.Error(message = e.toString()))
         }
     }
 
+
+    fun createStream(
+        token: String,
+        title: String,
+        url: String,
+        status: String,
+        productId: Int,
+        sellerId: Int
+    ) = viewModelScope.launch {
+        streamResponse.postValue(Resource.Loading())
+        try {
+            val response = repository.createStream(token, title, url, status, productId, sellerId)
+            streamResponse.postValue(handleStreamCreationResponse(response))
+
+        } catch (e: Exception) {
+            streamResponse.postValue(Resource.Error(message = e.toString()))
+        }
+    }
 
     fun loadStreams(token: String) = viewModelScope.launch {
         streams.postValue(Resource.Loading())
         try {
             val response = repository.loadStreams(token)
             streams.postValue(handleStreamResponse(response))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             streams.postValue(Resource.Error(message = e.toString()))
         }
     }
 
+    fun deleteStream(token: String, id: Int) = viewModelScope.launch {
+        streamResponse.postValue(Resource.Loading())
+        try {
+            val response = repository.deleteStream(token, id)
+            streamResponse.postValue(handleStreamCreationResponse(response))
+
+        } catch (e: Exception) {
+            streamResponse.postValue(Resource.Error(message = e.toString()))
+        }
+    }
+
+    fun searchStreams(token: String, search: String) = viewModelScope.launch {
+        streams.postValue(Resource.Loading())
+        try {
+            val response = repository.searchStream(token, search)
+            streams.postValue(handleStreamResponse(response))
+        } catch (e: Exception) {
+            streams.postValue(Resource.Error(message = e.toString()))
+        }
+    }
+
+    fun loadSreamsStatistics(token: String) = viewModelScope.launch {
+        streamStatistics.postValue(Resource.Loading())
+        try {
+            val response = repository.streamStatistics(token)
+            streamStatistics.postValue(handleStreamStatisticsResponse(response))
+        } catch (e: Exception) {
+            streamStatistics.postValue(Resource.Error(message = e.toString()))
+        }
+    }
+
+    fun loadOrderStatistics(token: String) = viewModelScope.launch {
+        orderStatistics.postValue(Resource.Loading())
+        try {
+            val response = repository.loadOrderStatistics(token)
+            orderStatistics.postValue(handleOrderStatisticsResponse(response))
+        } catch (e: Exception) {
+            orderStatistics.postValue(Resource.Error(message = e.toString()))
+        }
+
+    }
 
 
-
+//handle
 
     private fun handleProductsResponse(response: Response<List<Product>>): Resource<List<Product>> {
-        Log.d(TAG, "handleProductsResponse: +"+response)
+        Log.d(TAG, "handleProductsResponse: +" + response)
         if (response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(response.body()!!)
@@ -187,7 +249,7 @@ class MahsulotViewModel @Inject constructor(
     }
 
     private fun handleCategoriesResponse(response: Response<List<Category>>): Resource<List<Category>> {
-        Log.d(TAG, "handleCategoriesResponse: +"+response)
+        Log.d(TAG, "handleCategoriesResponse: +" + response)
         if (response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(response.body()!!)
@@ -197,9 +259,9 @@ class MahsulotViewModel @Inject constructor(
         return Resource.Error(response.message())
     }
 
-    private fun handleBannerResponse(response:Response<MutableList<Banner>>): Resource<MutableList<Banner>>{
-        Log.d(TAG, "handleBannerResponse: "+response)
-        if (response.isSuccessful){
+    private fun handleBannerResponse(response: Response<MutableList<Banner>>): Resource<MutableList<Banner>> {
+        Log.d(TAG, "handleBannerResponse: " + response)
+        if (response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(it)
             }
@@ -207,20 +269,9 @@ class MahsulotViewModel @Inject constructor(
         return Resource.Error(response.message())
     }
 
-    private fun handleRegistrationResponse(response: Response<SmsResponse>):Resource<SmsResponse>{
-        Log.d(TAG, "handleRegistrationResponse: "+response)
-        if (response.isSuccessful){
-            response.body()?.let {
-                return Resource.Success(it)
-            }
-        }
-
-        return Resource.Error(response.message())
-    }
-
-    private fun handleProfileResponse(response: Response<ProfileResponse>):Resource<ProfileResponse>{
-        Log.d(TAG, "handleProfileResponse: "+response)
-        if (response.isSuccessful){
+    private fun handleRegistrationResponse(response: Response<SmsResponse>): Resource<SmsResponse> {
+        Log.d(TAG, "handleRegistrationResponse: " + response)
+        if (response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(it)
             }
@@ -229,10 +280,51 @@ class MahsulotViewModel @Inject constructor(
         return Resource.Error(response.message())
     }
 
+    private fun handleProfileResponse(response: Response<ProfileResponse>): Resource<ProfileResponse> {
+        Log.d(TAG, "handleProfileResponse: " + response)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
 
-    private fun handleStreamResponse(response: Response<List<Stream>>):Resource<List<Stream>>{
-        Log.d(TAG, "handleStreamResponse: "+response)
-        if (response.isSuccessful){
+        return Resource.Error(response.message())
+    }
+
+
+    private fun handleStreamResponse(response: Response<List<Stream>>): Resource<List<Stream>> {
+        Log.d(TAG, "handleStreamResponse: " + response)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun handleStreamCreationResponse(response: Response<StreamResponse>): Resource<StreamResponse> {
+        Log.d(TAG, "handleStreamResponse: " + response)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun handleStreamStatisticsResponse(response: Response<StreamStatisticResponse>): Resource<StreamStatisticResponse> {
+        Log.d(TAG, "handleStreamStatisticsResponse: " + response)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun handleOrderStatisticsResponse(response: Response<OrderResponse>): Resource<OrderResponse> {
+        Log.d(TAG, "handleOrderStatisticsResponse: " + response)
+        if (response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(it)
             }
@@ -241,12 +333,7 @@ class MahsulotViewModel @Inject constructor(
     }
 
 
-
-
-
-
-
-    //database
+//database
 
     fun insertUser(user: User) = viewModelScope.launch {
         repository.insertUser(user)
@@ -257,12 +344,6 @@ class MahsulotViewModel @Inject constructor(
     }
 
     fun getUser() = repository.getUser()
-
-
-
-
-
-
 
 
 }
