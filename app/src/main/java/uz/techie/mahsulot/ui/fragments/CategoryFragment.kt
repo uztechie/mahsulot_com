@@ -26,6 +26,7 @@ import uz.techie.mahsulot.adapter.CategoryAdapter
 import uz.techie.mahsulot.adapter.ProductAdapter
 import uz.techie.mahsulot.adapter.SliderAdapter
 import uz.techie.mahsulot.data.MahsulotViewModel
+import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.model.Category
 import uz.techie.mahsulot.model.Product
@@ -37,12 +38,13 @@ class CategoryFragment:Fragment(R.layout.fragment_category), CategoryAdapter.Cat
     private lateinit var viewModel:MahsulotViewModel
     private val TAG = "CategoryFragment"
     private lateinit var gridLayoutManager:GridLayoutManager
+    lateinit var infoDialog: InfoDialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
-
+        infoDialog = InfoDialog(requireContext())
         categoryAdapter = CategoryAdapter(this)
         initToolbar()
 
@@ -84,9 +86,7 @@ class CategoryFragment:Fragment(R.layout.fragment_category), CategoryAdapter.Cat
         toolbar_btnClose.setOnClickListener {
             findNavController().navigate(CategoryFragmentDirections.actionGlobalHomeFragment())
         }
-        toolbar_btnSearch.setOnClickListener {
-            findNavController().navigate(CategoryFragmentDirections.actionGlobalSearchFragment())
-        }
+        toolbar_btnSearch.visibility = View.INVISIBLE
 
     }
 
@@ -107,14 +107,6 @@ class CategoryFragment:Fragment(R.layout.fragment_category), CategoryAdapter.Cat
         return list
     }
 
-    private fun showErrorText(message: String) {
-        category_error_tv.visibility = View.VISIBLE
-        category_error_tv.text = message
-    }
-
-    private fun hideErrorText() {
-        category_error_tv.visibility = View.GONE
-    }
 
     private fun showProgressbar() {
         category_progressbar.visibility = View.VISIBLE
@@ -141,6 +133,17 @@ class CategoryFragment:Fragment(R.layout.fragment_category), CategoryAdapter.Cat
 
 
     }
+
+    private fun showErrorText(message: String) {
+        infoDialog.show()
+        infoDialog.submitData(message)
+    }
+
+    private fun hideErrorText() {
+        infoDialog.dismiss()
+    }
+
+
 
 
 }

@@ -7,6 +7,7 @@ import uz.techie.mahsulot.model.Product
 
 object Constants {
 
+    const val ADMIN_TOKEN: String = "Token fa3e2a6c69c061df8cab7ba1edfe621e9f4df993"
     const val BASE_URL = "https://mahsulot.com/"
     const val MY_TOKEN = "slkfjadof23415ewkrjweja2342ghieurasdk934234jkb4jrb432j52k43DSNFInsiodfnewoiea"
 

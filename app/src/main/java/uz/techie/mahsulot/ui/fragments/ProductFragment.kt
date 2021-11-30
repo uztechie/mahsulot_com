@@ -29,6 +29,7 @@ import uz.techie.mahsulot.adapter.CategoryAdapter
 import uz.techie.mahsulot.adapter.ProductAdapter
 import uz.techie.mahsulot.adapter.SliderAdapter
 import uz.techie.mahsulot.data.MahsulotViewModel
+import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.model.Category
 import uz.techie.mahsulot.model.Product
@@ -43,12 +44,13 @@ class ProductFragment:Fragment(R.layout.fragment_product){
     private var catId = 0
     private var category:Category? = null
     private var previousCatId = 0
+    private lateinit var infoDialog:InfoDialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
-
+        infoDialog = InfoDialog(requireContext())
 
         productAdapter = ProductAdapter(object :ProductAdapter.OnOpenFragment{
             override fun openFragment(viewTypeId: Int, viewType:Int) {
@@ -137,14 +139,18 @@ class ProductFragment:Fragment(R.layout.fragment_product){
 
     }
 
+
+
     private fun showErrorText(message: String) {
-        error_tv.visibility = View.VISIBLE
-        error_tv.text = message
+        infoDialog.show()
+        infoDialog.submitData(message)
     }
 
     private fun hideErrorText() {
-        error_tv.visibility = View.GONE
+        infoDialog.dismiss()
     }
+
+
 
     private fun showProgressbar() {
         progressbar.visibility = View.VISIBLE

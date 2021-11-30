@@ -72,7 +72,7 @@ class ProfileFragment:Fragment(R.layout.fragment_profile) {
 
         })
         viewModel.getUser().observe(viewLifecycleOwner, Observer { mUser->
-            mUser.token?.let {
+            mUser?.token?.let {
                 token = "Token $it"
 
                 Log.d(TAG, "onViewCreated: token "+token)
@@ -90,10 +90,10 @@ class ProfileFragment:Fragment(R.layout.fragment_profile) {
 
     private fun showProfileData(profile: ProfileResponse) {
         profile.data?.let { data->
-            profile_main_balance_tv.text = "${Utils.toMoney(data.hisobi)} ${getString(R.string.som)}"
-            profile_hold_balance_tv.text = "${Utils.toMoney(data.hold)} ${getString(R.string.som)}"
-            profile_sold_tv.text = "${Utils.toMoney(data.muzlatildi)} ${getString(R.string.ta)}"
-            profile_marja_balance_tv.text = "${Utils.toMoney(data.marja)} ${getString(R.string.ta)}"
+            profile_main_balance_tv.text = "${data.hisobi?.let { Utils.toMoney(it) }} ${getString(R.string.som)}"
+            profile_hold_balance_tv.text = "${data.hold?.let { Utils.toMoney(it) }} ${getString(R.string.som)}"
+            profile_sold_tv.text = "${data.muzlatildi?.let { Utils.toMoney(it) }} ${getString(R.string.ta)}"
+            profile_marja_balance_tv.text = "${data.marja?.let { Utils.toMoney(it) }} ${getString(R.string.ta)}"
 
             submitPieChartData(data)
 
@@ -102,15 +102,15 @@ class ProfileFragment:Fragment(R.layout.fragment_profile) {
 
     private fun submitPieChartData(data: UserData) {
         val entries: ArrayList<PieEntry> = ArrayList()
-        entries.add(PieEntry(data.yangi.toFloat(), getString(R.string.yangi)))
-        entries.add(PieEntry(data.qabul_qilindi.toFloat(), getString(R.string.qabul_qilindi)))
-        entries.add(PieEntry(data.yetkazib_berildi.toFloat(), getString(R.string.yetkazib_berildi)))
-        entries.add(PieEntry(data.yetkazilmoqda.toFloat(), getString(R.string.yetkazilmoqda)))
-        entries.add(PieEntry(data.spam.toFloat(), getString(R.string.spam)))
-        entries.add(PieEntry(data.arxiv.toFloat(), getString(R.string.arxiv)))
-        entries.add(PieEntry(data.arxivlanmoqda.toFloat(), getString(R.string.arxivlanmoqda)))
-        entries.add(PieEntry(data.bekor_qilindi.toFloat(), getString(R.string.bekor_qilindi)))
-        entries.add(PieEntry(data.qayta_qungiroq.toFloat(), getString(R.string.qayta_qongiroq)))
+        entries.add(PieEntry(data.yangi!!.toFloat(), getString(R.string.yangi)))
+        entries.add(PieEntry(data.qabul_qilindi!!.toFloat(), getString(R.string.qabul_qilindi)))
+        entries.add(PieEntry(data.yetkazib_berildi!!.toFloat(), getString(R.string.yetkazib_berildi)))
+        entries.add(PieEntry(data.yetkazilmoqda!!.toFloat(), getString(R.string.yetkazilmoqda)))
+        entries.add(PieEntry(data.spam!!.toFloat(), getString(R.string.spam)))
+        entries.add(PieEntry(data.arxiv!!.toFloat(), getString(R.string.arxiv)))
+        entries.add(PieEntry(data.arxivlanmoqda!!.toFloat(), getString(R.string.arxivlanmoqda)))
+        entries.add(PieEntry(data.bekor_qilindi!!.toFloat(), getString(R.string.bekor_qilindi)))
+        entries.add(PieEntry(data.qayta_qungiroq!!.toFloat(), getString(R.string.qayta_qongiroq)))
 
         val colors = ArrayList<Int>()
         colors.add(resources.getColor(R.color.color1))
@@ -139,7 +139,7 @@ class ProfileFragment:Fragment(R.layout.fragment_profile) {
 
     private fun showMessage(message: String?) {
         message?.let {
-            Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
+            Utils.toastIconError(requireActivity(), message)
         }
     }
 

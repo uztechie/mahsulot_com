@@ -30,6 +30,7 @@ import uz.techie.mahsulot.adapter.StreamSoldStatisticAdapter
 import uz.techie.mahsulot.adapter.StreamStatisticAdapter
 import uz.techie.mahsulot.dialog.ConfirmDialog
 import uz.techie.mahsulot.dialog.CustomProgressDialog
+import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Order
 import uz.techie.mahsulot.model.Stream
 import uz.techie.mahsulot.model.StreamStatistic
@@ -43,20 +44,22 @@ class PurchaseStatisticFragment : Fragment(R.layout.fragment_order_statistic) {
     var token = ""
     private val TAG = "ProductStreamFragment"
     lateinit var customProgressDialog: CustomProgressDialog
+    private lateinit var infoDialog:InfoDialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        infoDialog = InfoDialog(requireContext())
         initToolbar()
 
         customProgressDialog = CustomProgressDialog(requireContext())
 
         viewModel.getUser().observe(viewLifecycleOwner, Observer { user ->
-            user.token?.let {
+            user?.token?.let {
                 token = "Token $it"
 
-                viewModel.loadOrderStatistics("Token 27e903ecfb160f96ce40b7053d98301e657a8784")
+//                viewModel.loadOrderStatistics("Token 27e903ecfb160f96ce40b7053d98301e657a8784")
+                viewModel.loadOrderStatistics(token)
             }
         })
 
@@ -79,7 +82,7 @@ class PurchaseStatisticFragment : Fragment(R.layout.fragment_order_statistic) {
                     hideErrorText()
                     order_statistic_progressbar.visibility = View.GONE
                     response.message?.let {
-                        Utils.showMessage(requireView(), it)
+                        Utils.toastIconError(requireActivity(), it)
                     }
                 }
                 is Resource.Success -> {
@@ -101,7 +104,7 @@ class PurchaseStatisticFragment : Fragment(R.layout.fragment_order_statistic) {
                             }
                         }
                         else{
-                            orderResponse.message?.let { Utils.showMessage(requireView(), it) }
+                            orderResponse.message?.let { Utils.toastIconError(requireActivity(), it) }
                         }
 
                     }
@@ -127,14 +130,16 @@ class PurchaseStatisticFragment : Fragment(R.layout.fragment_order_statistic) {
     }
 
 
-    private fun showErrorText(text: String) {
-        order_statistic_tv.visibility = View.VISIBLE
-        order_statistic_tv.text = text
+
+    private fun showErrorText(message: String) {
+        infoDialog.show()
+        infoDialog.submitData(message)
     }
 
     private fun hideErrorText() {
-        order_statistic_tv.visibility = View.GONE
+        infoDialog.dismiss()
     }
+
 
 
 }

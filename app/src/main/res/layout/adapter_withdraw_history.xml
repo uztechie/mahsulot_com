@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:padding="8dp"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/adapter_withdraw_tartib_raqami"
+        android:padding="4dp"
+        style="@style/tableTextStyle"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:text="#"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/adapter_withdraw_cardnumber"
+        android:padding="4dp"
+        style="@style/tableTextStyle"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:text="@string/hisob_raqam"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/adapter_withdraw_amount"
+        android:padding="4dp"
+        style="@style/tableTextStyle"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="@string/miqdor"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/adapter_withdraw_date"
+        android:padding="4dp"
+        style="@style/tableTextStyle"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="@string/sana"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/adapter_withdraw_holat"
+        android:padding="4dp"
+        style="@style/tableTextStyle"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="@string/holati"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/adapter_withdraw_izoh"
+        android:padding="4dp"
+        style="@style/tableTextStyle"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="@string/izoh"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+</LinearLayout>

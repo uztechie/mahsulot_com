@@ -52,7 +52,7 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
         customProgressDialog = CustomProgressDialog(requireContext())
 
         viewModel.getUser().observe(viewLifecycleOwner, Observer { user->
-            user.token?.let {
+            user?.token?.let {
                 token = "Token $it"
                 viewModel.loadStreams(token)
             }
@@ -84,7 +84,7 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
                 is Resource.Error->{
                     stream_progressbar.visibility = View.GONE
                     response.message?.let {
-                        Utils.showMessage(requireView(), it)
+                        Utils.toastIconError(requireActivity(), it)
                     }
                 }
                 is Resource.Success ->{
@@ -138,16 +138,16 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
                         }
                         is Resource.Error -> {
                             customProgressDialog.dismiss()
-                            Utils.showMessage(requireView(), response.message!!)
+                            Utils.toastIconError(requireActivity(), response.message!!)
                         }
                         is Resource.Success -> {
                             customProgressDialog.dismiss()
                             response.data?.let { streamResponse ->
                                 if (streamResponse.status == 200) {
-                                    Toast.makeText(requireContext(), getString(R.string.oqim_ochirildi), Toast.LENGTH_SHORT).show()
+                                    Utils.toastIconSuccess(requireActivity(), getString(R.string.oqim_ochirildi))
                                     viewModel.loadStreams(token)
                                 } else {
-                                    Utils.showMessage(requireView(), streamResponse.message!!)
+                                    Utils.toastIconError(requireActivity(), streamResponse.message!!)
                                 }
                             }
                         }
@@ -168,7 +168,7 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
             startActivity(intent)
         }
         else{
-            Utils.showMessage(requireView(), getString(R.string.url_mavjud_emas))
+            Utils.toastIconError(requireActivity(), getString(R.string.url_mavjud_emas))
         }
     }
 

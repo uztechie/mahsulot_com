@@ -6,21 +6,30 @@ import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.afdhal_fa.imageslider.model.SlideUIModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.custom_toolbar.*
 import kotlinx.android.synthetic.main.fragment_product_details.*
 import uz.techie.mahsulot.R
+import uz.techie.mahsulot.data.MahsulotViewModel
 import uz.techie.mahsulot.model.Banner
 import uz.techie.mahsulot.model.Product
 import uz.techie.mahsulot.util.IsliderImage
 import uz.techie.mahsulot.util.Utils
 
 
+@AndroidEntryPoint
 class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
     var product = Product()
+    var totalPrice = 0
+    var amount = 0
+    private val viewModel:MahsulotViewModel by viewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +76,9 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
         product.remained?.let {
             if (it>0){
                 elegantNumber.setRange(1, product.remained)
+                if (it>5){
+                    elegantNumber.setRange(1, 5)
+                }
                 details_buy_btn.isEnabled = true
             }
             else{
@@ -105,6 +117,27 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 
         initToolbar()
 
+        details_buy_btn.setOnClickListener {
+            viewModel.getUser().observe(viewLifecycleOwner, Observer {
+                if (it == null){
+                    findNavController().navigate(ProductDetailsFragmentDirections.actionGlobalLoginFragment())
+                }
+                else{
+                    amount = elegantNumber.number.toInt()
+                    findNavController()
+                        .navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToCreateOrderFragment(
+                            product = product,
+                            totalPrice = totalPrice,
+                            amount = amount
+
+                        ))
+                }
+            })
+
+
+
+        }
+
 
 
 
@@ -118,7 +151,7 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     val videoId = it.substringAfterLast('/')
                     youTubePlayer.loadVideo(videoId, 0f)
-                    youTubePlayer.play()
+                    youTubePlayer.pause()
 
                     Log.d("TAG", "onReady:  "+videoId)
                 }
@@ -129,7 +162,7 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 
     fun calculatePrice(quantity:Int){
         product.price?.let {
-            val totalPrice = quantity*it
+            totalPrice = quantity*it
             details_buy_btn.text = "${getString(R.string.harid_qilish)}  (${Utils.toMoney(totalPrice)} ${getString(R.string.som)})"
         }
 
@@ -140,13 +173,9 @@ class ProductDetailsFragment:Fragment(R.layout.fragment_product_details) {
 //        toolbar_title.visibility = View.VISIBLE
 
         toolbar_btnClose.setOnClickListener {
-            findNavController().navigate(
-                ProductDetailsFragmentDirections.actionProductDetailsFragmentToHomeFragment()
-            )
+            findNavController().popBackStack()
         }
-        toolbar_btnSearch.setOnClickListener {
-            findNavController().navigate(ProductDetailsFragmentDirections.actionGlobalSearchFragment())
-        }
+        toolbar_btnSearch.visibility = View.INVISIBLE
 
     }
 

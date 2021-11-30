@@ -36,6 +36,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var gridLayoutManager: GridLayoutManager
     lateinit var infoDialog: InfoDialog
     private var products = mutableListOf<Product>()
+    private var hasError = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,6 +172,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             when (response) {
                 is Resource.Success -> {
+                    hasError = false
                     product_swipe_refresh.isRefreshing = false
                     hideErrorText()
                     hideProgressbar()
@@ -193,6 +195,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                 }
                 is Resource.Error -> {
+                    hasError = true
                     product_swipe_refresh.isRefreshing = false
                     hideProgressbar()
                     showErrorText(response.message!!)
@@ -251,6 +254,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         Log.d(TAG2, "onResume: ")
+
+        if (hasError){
+            viewModel.loadBanners()
+            viewModel.loadTopProducts()
+            viewModel.loadProducts()
+        }
+
 //        val lastPosition = Constants.homeRecyclerPosition
 //        Log.d(TAG, "onResume: lastPosition "+lastPosition)
 //        Log.d(TAG, "onResume: listsize "+Constants.productList.size)
@@ -265,8 +275,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //            Log.d(TAG, "onResume: "+product_recyclerview.layoutManager!!.itemCount)
 //        }
 
-        productAdapter.differ.submitList(Constants.productList)
-        product_recyclerview.scrollToPosition(Constants.homeRecyclerPosition)
+//        productAdapter.differ.submitList(Constants.productList)
+//        product_recyclerview.scrollToPosition(Constants.homeRecyclerPosition)
 
 
     }
@@ -274,10 +284,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onPause() {
         super.onPause()
         Log.d(TAG2, "onPause: ")
-        Constants.homeRecyclerPosition = gridLayoutManager.findFirstCompletelyVisibleItemPosition()
-
-        Constants.homeRecyclerState = product_recyclerview.layoutManager?.onSaveInstanceState()
-        Constants.productList = productAdapter.differ.currentList
+//        Constants.homeRecyclerPosition = gridLayoutManager.findFirstCompletelyVisibleItemPosition()
+//
+//        Constants.homeRecyclerState = product_recyclerview.layoutManager?.onSaveInstanceState()
+//        Constants.productList = productAdapter.differ.currentList
     }
 
 

@@ -28,6 +28,7 @@ import uz.techie.mahsulot.adapter.StreamSoldStatisticAdapter
 import uz.techie.mahsulot.adapter.StreamStatisticAdapter
 import uz.techie.mahsulot.dialog.ConfirmDialog
 import uz.techie.mahsulot.dialog.CustomProgressDialog
+import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Stream
 import uz.techie.mahsulot.model.StreamStatistic
 import uz.techie.mahsulot.ui.fragments.SearchStreamFragment.Companion.SEARCH_STREAM
@@ -38,20 +39,23 @@ class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_statistic)
     private val viewModel: MahsulotViewModel by viewModels()
     lateinit var statisticAdapter: StreamSoldStatisticAdapter
     var token = ""
-    private val TAG = "ProductStreamFragment"
+    private val TAG = "StreamSoldStatisticFragment3"
     lateinit var customProgressDialog: CustomProgressDialog
+    lateinit var infoDialog:InfoDialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         customProgressDialog = CustomProgressDialog(requireContext())
+        infoDialog = InfoDialog(requireContext())
 
         viewModel.getUser().observe(viewLifecycleOwner, Observer { user ->
-            user.token?.let {
+            user?.token?.let {
                 token = "Token $it"
 
-                viewModel.loadSreamsStatistics("Token fa3e2a6c69c061df8cab7ba1edfe621e9f4df993")
+//                viewModel.loadSreamsStatistics("Token fa3e2a6c69c061df8cab7ba1edfe621e9f4df993")
+                viewModel.loadSreamsStatistics(token)
             }
         })
 
@@ -74,7 +78,7 @@ class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_statistic)
                     hideErrorText()
                     stream_statistic_progressbar.visibility = View.GONE
                     response.message?.let {
-                        Utils.showMessage(requireView(), it)
+                        Utils.toastIconError(requireActivity(), it)
                     }
                 }
                 is Resource.Success -> {
@@ -97,7 +101,8 @@ class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_statistic)
                             }
                         }
                         else{
-                            streamResponse.message?.let { Utils.showMessage(requireView(), it) }
+                            hideErrorText()
+                            streamResponse.message?.let { Utils.toastIconError(requireActivity(), it) }
                         }
 
                     }
@@ -123,14 +128,21 @@ class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_statistic)
     }
 
 
-    private fun showErrorText(text: String) {
-        stream_statistic_tv.visibility = View.VISIBLE
-        stream_statistic_tv.text = text
+
+    private fun showErrorText(message: String) {
+        infoDialog.show()
+        infoDialog.submitData(message)
     }
 
     private fun hideErrorText() {
-        stream_statistic_tv.visibility = View.GONE
+        infoDialog.dismiss()
     }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: ")
+    }
+
 
 
 }

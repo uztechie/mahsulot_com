@@ -27,6 +27,7 @@ import uz.techie.mahsulot.adapter.StreamAdapter
 import uz.techie.mahsulot.adapter.StreamStatisticAdapter
 import uz.techie.mahsulot.dialog.ConfirmDialog
 import uz.techie.mahsulot.dialog.CustomProgressDialog
+import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Stream
 import uz.techie.mahsulot.ui.fragments.SearchStreamFragment.Companion.SEARCH_STREAM
 
@@ -38,15 +39,17 @@ class StreamStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
     var token = ""
     private val TAG = "ProductStreamFragment"
     lateinit var customProgressDialog: CustomProgressDialog
+    lateinit var infoDialog:InfoDialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         customProgressDialog = CustomProgressDialog(requireContext())
+        infoDialog = InfoDialog(requireContext())
 
         viewModel.getUser().observe(viewLifecycleOwner, Observer { user ->
-            user.token?.let {
+            user?.token?.let {
                 token = "Token $it"
                 viewModel.loadStreams(token)
             }
@@ -71,7 +74,7 @@ class StreamStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
                     hideErrorText()
                     stream_statistic_progressbar.visibility = View.GONE
                     response.message?.let {
-                        Utils.showMessage(requireView(), it)
+                        Utils.toastIconError(requireActivity(), it)
                     }
                 }
                 is Resource.Success -> {
@@ -116,14 +119,15 @@ class StreamStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
     }
 
 
-    private fun showErrorText(text: String) {
-        stream_statistic_tv.visibility = View.VISIBLE
-        stream_statistic_tv.text = text
+    private fun showErrorText(message: String) {
+        infoDialog.show()
+        infoDialog.submitData(message)
     }
 
     private fun hideErrorText() {
-        stream_statistic_tv.visibility = View.GONE
+        infoDialog.dismiss()
     }
+
 
 
 }

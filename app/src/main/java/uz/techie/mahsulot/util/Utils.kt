@@ -1,5 +1,6 @@
 package uz.techie.mahsulot.util
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,7 +9,13 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
+import uz.techie.mahsulot.R
+import uz.techie.mahsulot.model.Region
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -65,6 +72,13 @@ object Utils {
         var dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         val date = dateFormat.parse(previousDate)
         dateFormat = SimpleDateFormat("dd.MM.yyyy hh:mm")
+        return dateFormat.format(date!!)
+    }
+
+    fun reformatDateOnlyFromString(previousDate: String):String {
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        val date = dateFormat.parse(previousDate)
+        dateFormat = SimpleDateFormat("dd.MM.yyyy")
         return dateFormat.format(date!!)
     }
 
@@ -135,33 +149,64 @@ object Utils {
     }
 
 
-    fun regionList():HashMap<Int, String>{
-        val regions = hashMapOf<Int, String>()
-        regions[1] = "Toshkent"
-        regions[2] = "Namangan"
-        regions[3] = "Samarqand"
-        regions[4] = "Sirdaryo"
-        regions[5] = "Surxondaryo"
-        regions[6] = "Qoraqalpogʻiston"
-        regions[7] = "Navoiy"
-        regions[8] = "Andijon"
-        regions[9] = "Buxoro"
-        regions[10] = "Fargʻona"
-        regions[11] = "Jizzax"
-        regions[12] = "Xorazm"
-        regions[13] = "Qashqadaryo"
+    fun regionList():List<Region>{
+        val regions:MutableList<Region> = mutableListOf()
+        regions.add(Region(1, "Toshkent"))
+        regions.add(Region(2, "Namangan"))
+        regions.add(Region(3, "Samarqand"))
+        regions.add(Region(4, "Sirdaryo"))
+        regions.add(Region(5, "Surxondaryo"))
+        regions.add(Region(6, "Qoraqalpogʻiston"))
+        regions.add(Region(7, "Navoiy"))
+        regions.add(Region(8, "Andijon"))
+        regions.add(Region(9, "Buxoro"))
+        regions.add(Region(10, "Fargʻona"))
+        regions.add(Region(11, "Jizzax"))
+        regions.add(Region(12, "Xorazm"))
+        regions.add(Region(13, "Qashqadaryo"))
         return regions
     }
 
 
     fun selectRegion(id:Int):String{
-        var region = regionList()[1]!!
+        var region = regionList()[0].name
         regionList().forEach {
-            if (it.key == id){
-                region = it.value
+            if (it.id == id){
+                region = it.name
             }
         }
         return region
+    }
+
+
+    fun toastIconSuccess(activity: Activity, message: String?) {
+        val toast = Toast(activity)
+        toast.duration = Toast.LENGTH_LONG
+
+        //inflate view
+        val custom_view: View = activity.layoutInflater.inflate(R.layout.toast_icon_text, null)
+        (custom_view.findViewById<View>(R.id.message) as TextView).text = message
+        (custom_view.findViewById<View>(R.id.icon) as ImageView).setImageResource(R.drawable.ic_baseline_done_24)
+        (custom_view.findViewById<View>(R.id.parent_view) as CardView).setCardBackgroundColor(
+            activity.resources.getColor(R.color.green)
+        )
+        toast.setView(custom_view)
+        toast.show()
+    }
+
+    fun toastIconError(activity: Activity, message: String?) {
+        val toast = Toast(activity)
+        toast.duration = Toast.LENGTH_LONG
+
+        //inflate view
+        val custom_view: View = activity.layoutInflater.inflate(R.layout.toast_icon_text, null)
+        (custom_view.findViewById<View>(R.id.message) as TextView).text = message
+        (custom_view.findViewById<View>(R.id.icon) as ImageView).setImageResource(R.drawable.ic_baseline_close_24)
+        (custom_view.findViewById<View>(R.id.parent_view) as CardView).setCardBackgroundColor(
+            activity.resources.getColor(R.color.red)
+        )
+        toast.setView(custom_view)
+        toast.show()
     }
 
 

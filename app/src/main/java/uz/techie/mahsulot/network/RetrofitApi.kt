@@ -105,6 +105,31 @@ interface RetrofitApi {
         @Header("Authorization")token: String
     ):Response<StreamStatisticResponse>
 
+
+
+
+    //withdraw
+    @FormUrlEncoded
+    @POST("api/pay-created/")
+    suspend fun makeWithdraw(
+        @Header("MyToken") myToken: String,
+        @Header("Authorization")token: String,
+        @Field("seller_id") seller_id: Int,
+        @Field("amount") amount: Int,
+        @Field("payment_card") payment_card: String,
+        @Field("status") status: Int,
+        @Field("desc") desc: Int,
+        @Field("seller_bonus") seller_bonus: Int,
+    ):Response<WithdrawResponse>
+
+    @GET("api/pay-history/")
+    suspend fun loadWithdrawHistory(
+        @Header("Authorization")token: String
+    ):Response<WithdrawHistoryResponse>
+
+
+
+    //order
     @GET("api/order-history/")
     suspend fun loadOrderStatistics(
         @Header("MyToken") myToken: String,
@@ -113,8 +138,38 @@ interface RetrofitApi {
 
 
 
+    @FormUrlEncoded
+    @POST("api/order-product/")
+    suspend fun makeOrder(
+        @Header("MyToken") myToken: String,
+        @Header("Authorization")token: String,
+        @FieldMap fieldMap:HashMap<String, Any>
+    ):Response<WithdrawResponse>
+
+    //update profile
+
+    @FormUrlEncoded
+    @POST("api/change/")
+    suspend fun updateProfile(
+        @Header("Authorization")token: String,
+        @FieldMap map:HashMap<String, String>
+    ):Response<UpdateResponse>
 
 
+    //marja
+    @FormUrlEncoded
+    @POST("api/order-marja/")
+    suspend fun makeMarjaOrder(
+        @Header("MyToken") myToken: String,
+        @Header("Authorization")token: String,
+        @FieldMap fieldMap:HashMap<String, Any>
+    ):Response<WithdrawResponse>
 
+
+    //konkurs
+    @GET("api/concource/")
+    suspend fun loadCompetition(
+        @Header("Authorization")token: String
+    ):Response<CompetitionResponse>
 
 }

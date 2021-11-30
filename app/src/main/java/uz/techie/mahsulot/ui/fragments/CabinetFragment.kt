@@ -38,11 +38,13 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
         viewModel.getUser().observe(viewLifecycleOwner, Observer {
             user = it
             if (user == null){
+                cabinet_info_layout.visibility = View.GONE
                 cabinet_private_layout.visibility = View.GONE
                 cabinet_login_btn.visibility = View.VISIBLE
                 cabinet_logout_btn.visibility = View.GONE
             }
             else{
+                cabinet_info_layout.visibility = View.VISIBLE
                 cabinet_private_layout.visibility = View.VISIBLE
                 cabinet_login_btn.visibility = View.GONE
                 cabinet_logout_btn.visibility = View.VISIBLE
@@ -93,10 +95,23 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
             findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToPrivateInfoFragment())
         }
 
+        cabinet_withdraw.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToWithdrawFragment())
+        }
+
+        cabinet_marja_market.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToMarjaFragment())
+        }
+
+        cabinet_concurs.setOnClickListener {
+            findNavController().navigate(CabinetFragmentDirections.actionCabinetFragmentToCompetitionFragment())
+        }
+
     }
 
     private fun logout() {
         viewModel.deleteUser()
+        cabinet_info_layout.visibility = View.GONE
         cabinet_private_layout.visibility = View.GONE
         cabinet_login_btn.visibility = View.VISIBLE
         cabinet_logout_btn.visibility = View.GONE
@@ -111,9 +126,7 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
         toolbar_btnClose.setOnClickListener {
             findNavController().popBackStack()
         }
-        toolbar_btnSearch.setOnClickListener {
-            findNavController().navigate(CabinetFragmentDirections.actionGlobalSearchFragment())
-        }
+        toolbar_btnSearch.visibility = View.INVISIBLE
 
     }
 

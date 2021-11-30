@@ -94,7 +94,7 @@ class ProductStreamFragment : Fragment(R.layout.fragment_stream_product) {
                 is Resource.Error -> {
                     product_stream_progressbar.visibility = View.GONE
                     response.message?.let {
-                        Utils.showMessage(requireView(), it)
+                        Utils.toastIconError(requireActivity(), it)
                     }
                 }
                 is Resource.Success -> {
@@ -167,16 +167,16 @@ class ProductStreamFragment : Fragment(R.layout.fragment_stream_product) {
                 }
                 is Resource.Error -> {
                     customProgressDialog.dismiss()
-                    Utils.showMessage(requireView(), response.message!!)
+                    Utils.toastIconError(requireActivity(), response.message!!)
                 }
                 is Resource.Success -> {
                     customProgressDialog.dismiss()
                     response.data?.let { streamResponse ->
                         if (streamResponse.status == 200) {
-                            Toast.makeText(requireContext(), getString(R.string.oqim_yaratildi), Toast.LENGTH_SHORT).show()
+                            Utils.toastIconSuccess(requireActivity(), getString(R.string.oqim_yaratildi))
                             findNavController().navigate(ProductStreamFragmentDirections.actionProductStreamFragmentToStreamFragment())
                         } else {
-                            Utils.showMessage(requireView(), streamResponse.message!!)
+                            Utils.toastIconError(requireActivity(), streamResponse.message!!)
                         }
                     }
                 }

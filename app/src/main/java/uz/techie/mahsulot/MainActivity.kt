@@ -74,11 +74,14 @@ class MainActivity : AppCompatActivity() {
 //                supportActionBar!!.show()
 //            }
 
-            if (destination.id == R.id.productDetailsFragment){
-                bottomNavigationView.visibility = View.GONE
+            val id = destination.id
+
+            if (id == R.id.homeFragment || id == R.id.categoryFragment || id == R.id.purchaseStatisticFragment ||
+                 id == R.id.cabinetFragment){
+                bottomNavigationView.visibility = View.VISIBLE
             }
             else{
-                bottomNavigationView.visibility = View.VISIBLE
+                bottomNavigationView.visibility = View.GONE
             }
 
         }
@@ -101,10 +104,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("android.net.wifi.WIFI_STATE_CHANGED")
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
-        registerReceiver(internetReceiver, intentFilter)
+//        val intentFilter = IntentFilter()
+//        intentFilter.addAction("android.net.wifi.WIFI_STATE_CHANGED")
+//        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+//        registerReceiver(internetReceiver, intentFilter)
 
         viewModel.loadBanners()
         viewModel.loadTopProducts()
@@ -116,7 +119,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        unregisterReceiver(internetReceiver)
+//        unregisterReceiver(internetReceiver)
     }
 
 

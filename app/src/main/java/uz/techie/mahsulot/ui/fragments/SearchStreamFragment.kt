@@ -26,6 +26,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uz.techie.mahsulot.R
+import uz.techie.mahsulot.adapter.MarjaAdapter
 import uz.techie.mahsulot.adapter.ProductAdapter
 import uz.techie.mahsulot.adapter.ProductStreamAdapter
 import uz.techie.mahsulot.adapter.StreamAdapter
@@ -44,12 +45,16 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
     companion object{
         const val SEARCH_PRODUCT = 1
         const val SEARCH_STREAM = 2
+        const val SEARCH_MARJA = 3
     }
 
     lateinit var searchview: SearchView
     lateinit var productSreamAdapter: ProductStreamAdapter
     lateinit var streamAdapter: StreamAdapter
+    lateinit var marjaAdapter: MarjaAdapter
     lateinit var customProgressDialog: CustomProgressDialog
+
+
 
     val viewModel by viewModels<MahsulotViewModel>()
     private  val TAG = "SearchFragment"
@@ -73,7 +78,7 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
         showKeyboard(searchview.findFocus())
 
         viewModel.getUser().observe(viewLifecycleOwner, Observer {
-            it.token?.let { mToken->
+            it?.token?.let { mToken->
                 token = "Token $mToken"
             }
         })
@@ -96,6 +101,13 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
 
             override fun onClickDelete(id: Int) {
                 deleteStream(id)
+            }
+
+        })
+
+        marjaAdapter = MarjaAdapter(object :MarjaAdapter.MarjaListener{
+            override fun onItemClick(product: Product) {
+                findNavController().navigate(SearchStreamFragmentDirections.actionGlobalMarjaProductDetailsFragment(product))
             }
 
         })
@@ -130,7 +142,49 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                     is Resource.Error ->{
                         hideProgressbar()
                         hideErrorText()
-                        Utils.showMessage(requireView(), response.message!!)
+                        Utils.toastIconError(requireActivity(), response.message!!)
+                    }
+                    is Resource.Loading ->{
+                        hideErrorText()
+                        showProgressbar()
+                    }
+                }
+
+
+            })
+
+        }
+        else if (searchType == SEARCH_MARJA){
+            search_recyclerview.apply {
+                setHasFixedSize(true)
+                layoutManager = GridLayoutManager(requireContext(), 2)
+                adapter = marjaAdapter
+            }
+
+            viewModel.searchProducts.observe(viewLifecycleOwner, Observer {response ->
+                Log.d(TAG, "onViewCreated: search "+response.data)
+                when(response){
+                    is Resource.Success ->{
+                        hideProgressbar()
+                        response.data?.let { productResponse->
+                            val list = mutableListOf<Product>()
+                            list.addAll(productResponse.filter { stream ->
+                                stream.marja == "True"
+                            })
+                            marjaAdapter.differ.submitList(list)
+
+                            if (list.isEmpty()){
+                                showErrorText(getString(R.string.malumotlar_topilmadi))
+                            }
+                            else{
+                                hideErrorText()
+                            }
+                        }
+                    }
+                    is Resource.Error ->{
+                        hideProgressbar()
+                        hideErrorText()
+                        Utils.toastIconError(requireActivity(), response.message!!)
                     }
                     is Resource.Loading ->{
                         hideErrorText()
@@ -173,7 +227,7 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                     is Resource.Error ->{
                         hideErrorText()
                         hideProgressbar()
-                        Utils.showMessage(requireView(), response.message!!)
+                        Utils.toastIconError(requireActivity(), response.message!!)
                     }
                     is Resource.Loading ->{
                         hideErrorText()
@@ -198,7 +252,7 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                     delay(500)
                     query?.let {
                         if (it.isNotEmpty() || it.isNotBlank()){
-                            if (searchType == SEARCH_PRODUCT){
+                            if (searchType == SEARCH_PRODUCT || searchType == SEARCH_MARJA){
                                 viewModel.searchProducts(it)
                             }
                             else{
@@ -217,7 +271,7 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                     delay(500)
                     newText?.let {
                         if (it.isNotEmpty() || it.isNotBlank()){
-                            if (searchType == SEARCH_PRODUCT){
+                            if (searchType == SEARCH_PRODUCT || searchType == SEARCH_MARJA){
                                 viewModel.searchProducts(it)
                             }
                             else{
@@ -272,7 +326,7 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
             startActivity(intent)
         }
         else{
-            Utils.showMessage(requireView(), getString(R.string.url_mavjud_emas))
+            Utils.toastIconError(requireActivity(), getString(R.string.url_mavjud_emas))
         }
     }
 
@@ -289,16 +343,16 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
                         }
                         is Resource.Error -> {
                             customProgressDialog.dismiss()
-                            Utils.showMessage(requireView(), response.message!!)
+                            Utils.toastIconError(requireActivity(), response.message!!)
                         }
                         is Resource.Success -> {
                             customProgressDialog.dismiss()
                             response.data?.let { streamResponse ->
                                 if (streamResponse.status == 200) {
-                                    Toast.makeText(requireContext(), getString(R.string.oqim_ochirildi), Toast.LENGTH_SHORT).show()
+                                    Utils.toastIconSuccess(requireActivity(), getString(R.string.oqim_ochirildi))
                                     viewModel.searchStreams(token, searchview.query.toString())
                                 } else {
-                                    Utils.showMessage(requireView(), streamResponse.message!!)
+                                    Utils.toastIconError(requireActivity(), streamResponse.message)
                                 }
                             }
                         }

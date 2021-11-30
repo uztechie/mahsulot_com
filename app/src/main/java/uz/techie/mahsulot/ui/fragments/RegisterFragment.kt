@@ -128,7 +128,7 @@ class RegisterFragment:Fragment(R.layout.fragment_register) {
     }
 
     private fun showMessage(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        Utils.toastIconError(requireActivity(), message)
     }
 
     private fun registrationSuccess(user: User?) {

@@ -225,7 +225,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun showMessage(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        Utils.toastIconError(requireActivity(), message)
     }
 
     private fun startTimer() {

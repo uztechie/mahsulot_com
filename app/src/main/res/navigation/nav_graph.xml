@@ -9,6 +9,10 @@
         android:name="uz.techie.mahsulot.ui.fragments.HomeFragment"
         android:label="HomeFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
     </fragment>
@@ -17,6 +21,10 @@
         android:name="uz.techie.mahsulot.ui.fragments.SearchFragment"
         android:label="SearchFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
@@ -27,6 +35,10 @@
         android:name="uz.techie.mahsulot.ui.fragments.CategoryFragment"
         android:label="CategoryFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_categoryFragment_to_productFragment"
             app:destination="@id/productFragment" />
     </fragment>
@@ -42,14 +54,31 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_createOrderFragment"
+            app:destination="@id/createOrderFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
-    <action android:id="@+id/action_global_productDetailsFragment" app:destination="@id/productDetailsFragment" />
+    <action
+        android:id="@+id/action_global_productDetailsFragment"
+        app:destination="@id/productDetailsFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
         app:popUpTo="@id/homeFragment"
         app:popUpToInclusive="true" />
     <action
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
         android:id="@+id/action_global_searchFragment"
         app:destination="@id/searchFragment" />
     <fragment
@@ -65,11 +94,19 @@
         android:name="uz.techie.mahsulot.ui.fragments.LoginFragment"
         android:label="LoginFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment"
             app:popUpTo="@id/registerFragment"
             app:popUpToInclusive="true" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_loginFragment_to_cabinetFragment"
             app:destination="@id/cabinetFragment"
             app:popUpTo="@id/cabinetFragment"
@@ -80,22 +117,76 @@
         android:name="uz.techie.mahsulot.ui.fragments.CabinetFragment"
         android:label="CabinetFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_cabinetFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_cabinetFragment_to_productStreamFragment"
             app:destination="@id/productStreamFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_cabinetFragment_to_streamFragment"
             app:destination="@id/streamFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_cabinetFragment_to_statisticFragment"
             app:destination="@id/statisticFragment" />
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_cabinetFragment_to_privateInfoFragment"
             app:destination="@id/privateInfoFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_cabinetFragment_to_withdrawFragment"
+            app:destination="@id/withdrawFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_cabinetFragment_self"
+            app:destination="@id/cabinetFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_cabinetFragment_to_marjaFragment"
+            app:destination="@id/marjaFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_cabinetFragment_to_competitionFragment"
+            app:destination="@id/competitionFragment" />
     </fragment>
-    <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
+    <action
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment" />
     <fragment
         android:id="@+id/topProductFragment"
         android:name="uz.techie.mahsulot.ui.fragments.TopProductFragment"
@@ -105,6 +196,10 @@
         android:name="uz.techie.mahsulot.ui.fragments.RegisterFragment"
         android:label="RegisterFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_registerFragment_to_cabinetFragment"
             app:destination="@id/cabinetFragment"
             app:popUpTo="@id/cabinetFragment"
@@ -122,6 +217,10 @@
         android:name="uz.techie.mahsulot.ui.fragments.ProductStreamFragment"
         android:label="ProductStreamFragment" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_productStreamFragment_to_streamFragment"
             app:destination="@id/streamFragment" />
     </fragment>
@@ -132,7 +231,14 @@
         <argument
             android:name="searchType"
             app:argType="integer" />
-    </fragment><action android:id="@+id/action_global_searchStreamFragment" app:destination="@id/searchStreamFragment"/>
+    </fragment>
+    <action
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        android:id="@+id/action_global_searchStreamFragment"
+        app:destination="@id/searchStreamFragment"/>
     <fragment
         android:id="@+id/streamFragment"
         android:name="uz.techie.mahsulot.ui.fragments.StreamFragment"
@@ -153,4 +259,72 @@
         android:id="@+id/purchaseStatisticFragment"
         android:name="uz.techie.mahsulot.ui.fragments.PurchaseStatisticFragment"
         android:label="PurchaseStatisticFragment" />
+    <fragment
+        android:id="@+id/withdrawFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.WithdrawFragment"
+        android:label="WithdrawFragment" >
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_withdrawFragment_to_withdrawHistoryFragment"
+            app:destination="@id/withdrawHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/withdrawHistoryFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.WithdrawHistoryFragment"
+        android:label="WithdrawHistoryFragment" />
+    <fragment
+        android:id="@+id/createOrderFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.CreateOrderFragment"
+        android:label="CreateOrderFragment" >
+        <argument
+            android:name="product"
+            app:argType="uz.techie.mahsulot.model.Product" />
+        <argument
+            android:name="amount"
+            app:argType="integer" />
+        <argument
+            android:name="totalPrice"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/marjaFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.MarjaFragment"
+        android:label="MarjaFragment" />
+    <fragment
+        android:id="@+id/marjaProductDetailsFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.MarjaProductDetailsFragment"
+        android:label="MarjaProductDetailsFragment" >
+        <argument
+            android:name="product"
+            app:argType="uz.techie.mahsulot.model.Product" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_marjaProductDetailsFragment_to_createMarjaOrderFragment"
+            app:destination="@id/createMarjaOrderFragment" />
+    </fragment>
+    <action
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        android:id="@+id/action_global_marjaProductDetailsFragment"
+        app:destination="@id/marjaProductDetailsFragment" />
+    <fragment
+        android:id="@+id/createMarjaOrderFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.CreateMarjaOrderFragment"
+        android:label="CreateMarjaOrderFragment" >
+        <argument
+            android:name="product"
+            app:argType="uz.techie.mahsulot.model.Product" />
+    </fragment>
+    <fragment
+        android:id="@+id/competitionFragment"
+        android:name="uz.techie.mahsulot.ui.fragments.CompetitionFragment"
+        android:label="CompetitionFragment" />
 </navigation>

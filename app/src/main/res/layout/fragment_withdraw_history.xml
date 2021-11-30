@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout1"
+        layout="@layout/custom_toolbar"/>
+
+
+    <HorizontalScrollView
+        android:layout_below="@id/layout1"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:background="@color/light_blue"
+                android:padding="8dp"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/adapter_withdraw_tartib_raqami"
+                    android:padding="4dp"
+                    style="@style/tableTextStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="#"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/adapter_withdraw_cardnumber"
+                    android:padding="4dp"
+                    style="@style/tableTextStyle"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/hisob_raqam"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/adapter_withdraw_amount"
+                    android:padding="4dp"
+                    style="@style/tableTextStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/miqdor"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/adapter_withdraw_date"
+                    android:padding="4dp"
+                    style="@style/tableTextStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/sana"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/adapter_withdraw_holat"
+                    android:padding="4dp"
+                    style="@style/tableTextStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/holati"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/adapter_withdraw_izoh"
+                    android:padding="4dp"
+                    style="@style/tableTextStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/izoh"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
+
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/withdraw_history_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="4dp"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="horizontal"
+                tools:listitem="@layout/adapter_withdraw_history" />
+        </LinearLayout>
+
+
+
+    </HorizontalScrollView>
+
+
+
+
+    <ProgressBar
+        android:id="@+id/withdraw_history_progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorAccent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/withdraw_history_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:visibility="gone"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</RelativeLayout>

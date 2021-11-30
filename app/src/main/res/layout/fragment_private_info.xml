@@ -107,6 +107,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:enabled="false"
                     android:id="@+id/info_radio_male"
                     android:layout_width="70dp"
                     android:layout_height="40dp"
@@ -118,6 +119,7 @@
                     android:textColor="@drawable/radio_gender_text" />
 
                 <RadioButton
+                    android:enabled="false"
                     android:id="@+id/info_radio_female"
                     android:layout_width="70dp"
                     android:layout_height="40dp"
@@ -151,6 +153,7 @@
                 app:hintEnabled="true">
 
                 <AutoCompleteTextView
+                    android:inputType="none"
                     android:id="@+id/info_birhday"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

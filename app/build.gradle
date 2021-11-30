@@ -135,6 +135,11 @@ dependencies {
     //curved imageview
     implementation 'com.rishabhharit.roundedimageview:RoundedImageView:0.8.4'
 
+    //count animation
+    implementation 'com.daasuu:CountAnimationTextView:0.1.2'
+
+    implementation "com.github.YvesCheung.RollingText:RollingText:1.2.10"
+
 
 }
 
