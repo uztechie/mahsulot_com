@@ -19,6 +19,7 @@ data class Stream(
     val status: String?=null,
     val url: String?=null,
     val reklama: String?=null,
+    val reklama_bot: String?=null,
     val create_at: String?=null,
     val update_at: String?=null,
     val product_id: Int?=null,

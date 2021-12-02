@@ -15,6 +15,6 @@
         style="@style/Widget.MaterialComponents.CircularProgressIndicator.Small"
         android:layout_gravity="center"
         app:trackCornerRadius="24dp"
-        app:indicatorColor="@color/colorAccent"/>
+        app:indicatorColor="@color/light_blue"/>
 
 </androidx.cardview.widget.CardView>

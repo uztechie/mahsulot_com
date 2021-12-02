@@ -124,4 +124,6 @@
     <string name="sotuvchi">Sotuvchi</string>
     <string name="sotildi">sotildi</string>
     <string name="hozircha_konkurslar_mavjud_emas">Hozircha konkurslar mavjud emas</string>
+    <string name="oddiy_telegram_posti">Oddiy telegram posti</string>
+    <string name="mahsus_telegram_posti">Mahsus telegram posti</string>
 </resources>

@@ -67,6 +67,16 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
                 deleteStream(id)
             }
 
+            override fun onSimpleTgLinkClick(link: String) {
+                Log.d(TAG, "onSimpleTgLinkClick: link "+link)
+                openUrl(link)
+            }
+
+            override fun onSpecialTgLinkClick(link: String) {
+                Log.d(TAG, "onSpecialTgLinkClick: link "+link)
+                openUrl(link)
+            }
+
         })
 
         stream_recyclerview.apply {
@@ -162,7 +172,7 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
     }
 
     private fun openUrl(url:String){
-        if (url.startsWith("http") || url.startsWith("https")){
+        if (url.startsWith("http") || url.startsWith("https") || url.startsWith("tg")){
             val uri: Uri = Uri.parse(url)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)

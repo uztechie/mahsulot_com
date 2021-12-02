@@ -127,7 +127,7 @@
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/details_full_desc_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:layout_marginHorizontal="12dp"
                     app:backgroundTint="@color/background_color"
                     android:text="@string/batafsil"
@@ -137,6 +137,7 @@
                     app:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
                     app:iconTint="@color/black"
                     app:iconGravity="textEnd"
+                android:layout_marginBottom="24dp"
                     android:layout_marginTop="24dp" />
 
                 <TextView

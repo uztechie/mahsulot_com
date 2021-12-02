@@ -21,6 +21,7 @@ import android.net.Uri
 import android.view.*
 import android.widget.SearchView
 import android.widget.Toast
+import kotlinx.coroutines.*
 import uz.techie.mahsulot.dialog.CustomProgressDialog
 import uz.techie.mahsulot.ui.fragments.SearchStreamFragment.Companion.SEARCH_PRODUCT
 
@@ -34,6 +35,7 @@ class ProductStreamFragment : Fragment(R.layout.fragment_stream_product) {
     private val TAG = "ProductStreamFragment"
     private var token = ""
     private var customerId = -1
+    private var job:Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -173,8 +175,13 @@ class ProductStreamFragment : Fragment(R.layout.fragment_stream_product) {
                     customProgressDialog.dismiss()
                     response.data?.let { streamResponse ->
                         if (streamResponse.status == 200) {
-                            Utils.toastIconSuccess(requireActivity(), getString(R.string.oqim_yaratildi))
-                            findNavController().navigate(ProductStreamFragmentDirections.actionProductStreamFragmentToStreamFragment())
+                            job = GlobalScope.launch(Dispatchers.Main) {
+                                delay(1000)
+                                Utils.toastIconSuccess(requireActivity(), getString(R.string.oqim_yaratildi))
+                                findNavController().navigate(ProductStreamFragmentDirections.actionProductStreamFragmentToStreamFragment())
+                            }
+
+
                         } else {
                             Utils.toastIconError(requireActivity(), streamResponse.message!!)
                         }
@@ -204,5 +211,10 @@ class ProductStreamFragment : Fragment(R.layout.fragment_stream_product) {
 
     }
 
+
+    override fun onStop() {
+        super.onStop()
+        job?.cancel()
+    }
 
 }

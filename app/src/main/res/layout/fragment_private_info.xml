@@ -174,7 +174,7 @@
             <include
                 layout="@layout/progress_button"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="45dp" />
 
 
         </LinearLayout>

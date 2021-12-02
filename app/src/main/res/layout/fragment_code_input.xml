@@ -52,8 +52,9 @@
 
 
         <com.google.android.material.button.MaterialButton
+            app:cornerRadius="8dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             app:backgroundTint="@color/colorAccent"
             android:layout_marginTop="24dp"
             android:text="@string/tasdiqlash"

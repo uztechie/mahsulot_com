@@ -21,10 +21,7 @@ import kotlinx.android.synthetic.main.fragment_category.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_stream_product.*
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.MarjaAdapter
 import uz.techie.mahsulot.adapter.ProductAdapter
@@ -53,6 +50,8 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
     lateinit var streamAdapter: StreamAdapter
     lateinit var marjaAdapter: MarjaAdapter
     lateinit var customProgressDialog: CustomProgressDialog
+    private var customerId = -1
+    private var job:Job? = null
 
 
 
@@ -81,6 +80,9 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
             it?.token?.let { mToken->
                 token = "Token $mToken"
             }
+            it?.id?.let { id->
+                customerId = id
+            }
         })
 
         productSreamAdapter = ProductStreamAdapter(requireContext(), object : ProductStreamAdapter.ProductStreamListener{
@@ -89,7 +91,7 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
             }
 
             override fun onCreateStream(product: Product) {
-
+                createStream(product)
             }
 
         })
@@ -101,6 +103,14 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
 
             override fun onClickDelete(id: Int) {
                 deleteStream(id)
+            }
+
+            override fun onSimpleTgLinkClick(link: String) {
+                openUrl(link)
+            }
+
+            override fun onSpecialTgLinkClick(link: String) {
+                openUrl(link)
             }
 
         })
@@ -376,6 +386,52 @@ class SearchStreamFragment:Fragment(R.layout.fragment_search){
         search_error_tv.visibility = View.GONE
     }
 
+
+    private fun createStream(product: Product) {
+        viewModel.createStream(
+            token = token,
+            title = product.name!!,
+            url = "url",
+            status = "True",
+            productId = product.id!!,
+            sellerId = customerId
+        )
+
+        viewModel.streamResponse.observe(viewLifecycleOwner, Observer { response ->
+            Log.d(TAG, "createStream: " + response.data)
+            when (response) {
+                is Resource.Loading -> {
+                    customProgressDialog.show()
+                }
+                is Resource.Error -> {
+                    customProgressDialog.dismiss()
+                    Utils.toastIconError(requireActivity(), response.message!!)
+                }
+                is Resource.Success -> {
+                    customProgressDialog.dismiss()
+                    response.data?.let { streamResponse ->
+                        if (streamResponse.status == 200) {
+                            job = GlobalScope.launch(Dispatchers.Main) {
+                                delay(1000)
+                                Utils.toastIconSuccess(requireActivity(), getString(R.string.oqim_yaratildi))
+                                findNavController().navigate(SearchStreamFragmentDirections.actionSearchStreamFragmentToStreamFragment())
+                            }
+
+
+                        } else {
+                            Utils.toastIconError(requireActivity(), streamResponse.message!!)
+                        }
+                    }
+                }
+            }
+        })
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job?.cancel()
+    }
 
 
 }

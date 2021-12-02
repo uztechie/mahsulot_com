@@ -231,6 +231,9 @@
         <argument
             android:name="searchType"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_searchStreamFragment_to_streamFragment"
+            app:destination="@id/streamFragment" />
     </fragment>
     <action
         app:enterAnim="@anim/slide_in_right"

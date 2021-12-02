@@ -204,8 +204,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/order_btn_order"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_margin="12dp"
+                android:textSize="12sp"
                 app:cornerRadius="8dp"
                 android:text="@string/buyurtma_berish"/>
 

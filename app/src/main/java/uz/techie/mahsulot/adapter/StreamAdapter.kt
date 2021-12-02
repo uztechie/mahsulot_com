@@ -41,42 +41,67 @@ class StreamAdapter(val mContext: Context, val listener: StreamListener) :
                 adapterStreamBonus.text =
                     "${mContext.getString(R.string.bonus)}: ${stream.bonus?.let { Utils.toMoney(it) }} so'm"
                 adapterStreamTitle.text = stream.name
-                stream.url?.let {
-
-                    val simpleLink = "https://mahsulot.com/m/$it"
-                    val specialLink = "https://mahsulot.com/l/$it"
-
-                    adapterStreamLinkSimple.text = simpleLink
-                    adapterStreamLinkSpecial.text = specialLink
-                    adapterStreamLinkSimpleCopy.text = simpleLink
-                    adapterStreamLinkSpecialCopy.text = specialLink
 
 
-                    adapterStreamLinkSimpleBtn.setOnClickListener {
-                        Utils.copyTextToClipboard(mContext, simpleLink)
-                        Toast.makeText(mContext, mContext.getString(R.string.sahifa_nusxalandi), Toast.LENGTH_SHORT).show()
+                if (stream.reklama_bot == "0"){
+                    adapterStreamLinkSpecialTg.visibility = View.GONE
+                    adapterStreamLinkSimpleTg.visibility = View.GONE
+                }
 
 
-                        animateText(adapterStreamLinkSimpleCopy)
+                var simpleLink = ""
+                var specialLink = ""
+                var simpleTgLink = ""
+                var specialTgLink = ""
+
+                if (stream.url.isNullOrEmpty()) {
+                    simpleLink = "https://mahsulot.com/oqim/${stream.id}"
+                    specialLink = "https://mahsulot.com/n/${stream.id}"
+                    simpleTgLink = "tg://resolve?domain=mahsulot_com_rasmiy_bot&start=oqim_"+stream.id+"_"+stream.reklama_bot
+                    specialTgLink = "tg://resolve?domain=mahsulot_com_rasmiy_bot&start=n_"+stream.id+"_"+stream.reklama_bot
 
 
-                    }
 
-                    adapterStreamLinkSpecialBtn.setOnClickListener {
-                        Utils.copyTextToClipboard(mContext, specialLink)
-//                        animateX(view2)
-//
-//                        Handler().postDelayed(Runnable {
-//                            reAnimateX(view2)
-//                        }, 300)
+                } else {
+                    simpleLink = "https://mahsulot.com/m/${stream.url}"
+                    specialLink = "https://mahsulot.com/l/${stream.url}"
 
-                        animateText(adapterStreamLinkSpecialCopy)
+                    simpleTgLink = "tg://resolve?domain=mahsulot_com_rasmiy_bot&start=m_"+stream.url+"_"+stream.reklama_bot
+                    specialTgLink = "tg://resolve?domain=mahsulot_com_rasmiy_bot&start=l_"+stream.url+"_"+stream.reklama_bot
+                }
 
-                        Toast.makeText(mContext, mContext.getString(R.string.sahifa_nusxalandi), Toast.LENGTH_SHORT).show()
-                    }
+                adapterStreamLinkSimple.text = simpleLink
+                adapterStreamLinkSpecial.text = specialLink
+                adapterStreamLinkSimpleCopy.text = simpleLink
+                adapterStreamLinkSpecialCopy.text = specialLink
+
+
+                adapterStreamLinkSimpleBtn.setOnClickListener {
+                    Utils.copyTextToClipboard(mContext, simpleLink)
+                    Toast.makeText(
+                        mContext,
+                        mContext.getString(R.string.sahifa_nusxalandi),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+
+                    animateText(adapterStreamLinkSimpleCopy)
 
 
                 }
+
+                adapterStreamLinkSpecialBtn.setOnClickListener {
+                    Utils.copyTextToClipboard(mContext, specialLink)
+                    animateText(adapterStreamLinkSpecialCopy)
+                    Toast.makeText(
+                        mContext,
+                        mContext.getString(R.string.sahifa_nusxalandi),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+
+
 
 
                 adapterStreamAdTg.setOnClickListener {
@@ -90,6 +115,15 @@ class StreamAdapter(val mContext: Context, val listener: StreamListener) :
                         listener.onClickDelete(it)
                     }
                 }
+
+                adapterStreamLinkSimpleTg.setOnClickListener {
+                    listener.onSimpleTgLinkClick(simpleTgLink)
+                }
+
+                adapterStreamLinkSpecialTg.setOnClickListener {
+                    listener.onSpecialTgLinkClick(specialTgLink)
+                }
+
 
 
             }
@@ -135,6 +169,8 @@ class StreamAdapter(val mContext: Context, val listener: StreamListener) :
     interface StreamListener {
         fun onClickAdLink(link: String)
         fun onClickDelete(id: Int)
+        fun onSimpleTgLinkClick(link:String)
+        fun onSpecialTgLinkClick(link:String)
     }
 
 
@@ -158,7 +194,7 @@ class StreamAdapter(val mContext: Context, val listener: StreamListener) :
             .start()
     }
 
-    private fun animateText(view: View){
+    private fun animateText(view: View) {
 
         view.translationY = 0f
         view.alpha = 1f

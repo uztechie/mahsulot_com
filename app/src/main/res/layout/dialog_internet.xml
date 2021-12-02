@@ -52,6 +52,7 @@
             android:layout_marginTop="32dp"
             android:text="Ulanish"
             android:textAllCaps="false"
+            app:backgroundTint="@color/colorAccent"
             android:textColor="@color/white"
             app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
