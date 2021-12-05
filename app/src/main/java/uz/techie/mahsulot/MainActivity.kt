@@ -94,6 +94,13 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = resources.getColor(R.color.background_color)
     }
 
+
+    fun updateStatusColorBlue() {
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = resources.getColor(R.color.colorAccent)
+    }
+
     fun updateStatusBarDark() { // Color must be in hexadecimal fromat
 
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false

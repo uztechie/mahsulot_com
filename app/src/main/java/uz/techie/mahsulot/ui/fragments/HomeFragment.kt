@@ -21,6 +21,7 @@ import uz.techie.mahsulot.MainActivity
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.ProductAdapter
 import uz.techie.mahsulot.data.MahsulotViewModel
+import uz.techie.mahsulot.dialog.CustomProgressDialog
 import uz.techie.mahsulot.dialog.InfoDialog
 import uz.techie.mahsulot.model.Product
 import uz.techie.mahsulot.util.Constants
@@ -37,13 +38,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var infoDialog: InfoDialog
     private var products = mutableListOf<Product>()
     private var hasError = false
+    lateinit var customProgressDialog: CustomProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG2, "onCreate: ")
         Log.d(TAG2, "onCreate bundle: " + savedInstanceState)
-
         Log.d(TAG, "onCreate: phoneee "+Utils.hidePhoneNumber("998999952666"))
+
+
+
     }
 
     override fun onCreateView(
@@ -62,6 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         (activity as MainActivity).setSupportActionBar(toolbar)
         viewModel = (activity as MainActivity).viewModel
 
+        customProgressDialog = CustomProgressDialog(requireContext())
         infoDialog = InfoDialog(requireContext())
 
         val sliderFragment = SliderFragment()
@@ -241,12 +246,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun showProgressbar() {
-        product_progressbar.visibility = View.VISIBLE
+        customProgressDialog.show()
+        product_progressbar.visibility = View.GONE
     }
 
 
     private fun hideProgressbar() {
+        customProgressDialog.dismiss()
         product_progressbar.visibility = View.GONE
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (activity as MainActivity).updateStatusColorBlue()
     }
 
     override fun onResume() {
@@ -287,6 +299,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        Constants.homeRecyclerState = product_recyclerview.layoutManager?.onSaveInstanceState()
 //        Constants.productList = productAdapter.differ.currentList
     }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).updateStatusLight()
+    }
+
 
 
 }

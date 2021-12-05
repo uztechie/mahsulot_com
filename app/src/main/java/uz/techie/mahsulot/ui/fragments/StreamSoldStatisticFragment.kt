@@ -21,7 +21,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_stream.*
+import kotlinx.android.synthetic.main.fragment_stream_sold_statistic.*
 import kotlinx.android.synthetic.main.fragment_stream_statistic.*
+import kotlinx.android.synthetic.main.fragment_stream_statistic.stream_statistic_progressbar
 import kotlinx.android.synthetic.main.toolbar.*
 import uz.techie.mahsulot.adapter.StreamAdapter
 import uz.techie.mahsulot.adapter.StreamSoldStatisticAdapter
@@ -35,11 +37,11 @@ import uz.techie.mahsulot.ui.fragments.SearchStreamFragment.Companion.SEARCH_STR
 
 
 @AndroidEntryPoint
-class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
+class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_sold_statistic) {
     private val viewModel: MahsulotViewModel by viewModels()
     lateinit var statisticAdapter: StreamSoldStatisticAdapter
     var token = ""
-    private val TAG = "StreamSoldStatisticFragment3"
+    private val TAG = "StreamSoldStatisticsss"
     lateinit var customProgressDialog: CustomProgressDialog
     lateinit var infoDialog:InfoDialog
 
@@ -61,14 +63,14 @@ class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_statistic)
 
         statisticAdapter = StreamSoldStatisticAdapter(requireContext())
 
-        stream_statistic_recyclerview.apply {
+        stream_statistic_sold_recyclerview.apply {
 //            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = statisticAdapter
         }
 
         viewModel.streamStatistics.observe(viewLifecycleOwner, Observer { response ->
-            Log.d(TAG, "onViewCreated: " + response.data)
+            Log.d("TAG", "onViewCreated: " + response.data)
             when (response) {
                 is Resource.Loading -> {
                     hideErrorText()
@@ -88,7 +90,6 @@ class StreamSoldStatisticFragment : Fragment(R.layout.fragment_stream_statistic)
                         if (streamResponse.status == 200){
                             streamResponse.statistic?.let { statisicResponse->
                                 val list = mutableListOf<StreamStatistic>()
-                                list.add(StreamStatistic(id = -2))
                                 list.addAll(statisicResponse)
                                 statisticAdapter.differ.submitList(list)
 

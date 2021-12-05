@@ -52,7 +52,7 @@ class SliderFragment:Fragment(R.layout.fragment_slider) {
 
 
 
-        imageSlider.setImageList(slider2List())
+
 
     }
 

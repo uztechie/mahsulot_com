@@ -13,12 +13,19 @@ import uz.techie.mahsulot.databinding.AdapterStreamStatisticsBinding
 import uz.techie.mahsulot.model.Stream
 import uz.techie.mahsulot.model.StreamStatistic
 
-class StreamStatisticAdapter(val mContext:Context) : RecyclerView.Adapter<StreamStatisticAdapter.StatisticViewHolder>() {
+class StreamStatisticAdapter(val mContext: Context) :
+    RecyclerView.Adapter<StreamStatisticAdapter.StatisticViewHolder>() {
     var list = mutableListOf<Stream>()
 
     inner class StatisticViewHolder(private val binding: AdapterStreamStatisticsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Stream) {
+            binding.adapterStatNumbers.text = (absoluteAdapterPosition).toString()
+            if (data.id == -5){
+                binding.adapterStatNumbers.text = "-"
+            }
+
+
             binding.adapterStatNomi.text = data.name
             binding.adapterStatTashrif.text = data.click.toString()
             binding.adapterStatYangi.text = data.yangi.toString()
@@ -33,10 +40,14 @@ class StreamStatisticAdapter(val mContext:Context) : RecyclerView.Adapter<Stream
             binding.adapterStatArxivlanmoqda.text = data.arxivlanmoqda.toString()
             binding.adapterStatArxivlandi.text = data.arxivlandi.toString()
 
-            if (absoluteAdapterPosition%2==0){
-                binding.root.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white_second))
-            }
-            else{
+            if (absoluteAdapterPosition % 2 == 0) {
+                binding.root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        mContext,
+                        R.color.white_second
+                    )
+                )
+            } else {
                 binding.root.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white))
             }
 
@@ -60,22 +71,62 @@ class StreamStatisticAdapter(val mContext:Context) : RecyclerView.Adapter<Stream
             binding.adapterStatNomi.setTextColor(ContextCompat.getColor(mContext, R.color.white))
             binding.adapterStatTashrif.setTextColor(ContextCompat.getColor(mContext, R.color.white))
             binding.adapterStatYangi.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatQabulqilindi.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatYetkazilmoqda.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatYetkazibBerildi.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatQaytaQongiroq.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatNosozMahsulot.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatBekorQilindi.setTextColor(ContextCompat.getColor(mContext, R.color.white))
+            binding.adapterStatQabulqilindi.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
+            binding.adapterStatYetkazilmoqda.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
+            binding.adapterStatYetkazibBerildi.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
+            binding.adapterStatQaytaQongiroq.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
+            binding.adapterStatNosozMahsulot.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
+            binding.adapterStatBekorQilindi.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
             binding.adapterStatSpam.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatArxivlanmoqda.setTextColor(ContextCompat.getColor(mContext, R.color.white))
-            binding.adapterStatArxivlandi.setTextColor(ContextCompat.getColor(mContext, R.color.white))
+            binding.adapterStatArxivlanmoqda.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
+            binding.adapterStatArxivlandi.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
 
         }
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<Stream>(){
+    private val differCallback = object : DiffUtil.ItemCallback<Stream>() {
         override fun areItemsTheSame(oldItem: Stream, newItem: Stream): Boolean {
-            return  oldItem.id == newItem.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
@@ -90,24 +141,23 @@ class StreamStatisticAdapter(val mContext:Context) : RecyclerView.Adapter<Stream
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatisticViewHolder {
-        val binding = AdapterStreamStatisticsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AdapterStreamStatisticsBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return StatisticViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: StatisticViewHolder, position: Int) {
-        if (position==0){
-            holder.bindHeader()
-        }
-        else{
-            holder.bind(differ.currentList[position])
-        }
+        holder.bind(differ.currentList[position])
     }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
 
-    fun submitList(streamList:MutableList<Stream>){
+    fun submitList(streamList: MutableList<Stream>) {
         this.list.clear()
         this.list.addAll(streamList)
         notifyDataSetChanged()

@@ -86,7 +86,7 @@
     <string name="umumiy_oqimlar">Umumiy oqimlar</string>
     <string name="savdo_boyicha">Haridlar bo\'yicha</string>
     <string name="soni">Soni</string>
-    <string name="holati">Holati</string>
+    <string name="holati">Holat</string>
     <string name="mahsulot">Mahsulot</string>
     <string name="narxi">Narxi</string>
     <string name="izoh">Izoh</string>
@@ -127,4 +127,11 @@
     <string name="oddiy_telegram_posti">Oddiy telegram posti</string>
     <string name="mahsus_telegram_posti">Mahsus telegram posti</string>
     <string name="jami">Jami</string>
+    <string name="nomi">Nomi</string>
+    <string name="tashrif">Tashrif</string>
+    <string name="qayta_qo_ng_iroq">Qayta qo\'ng\'iroq</string>
+    <string name="nosoz_mahsulot">Nosoz mahsulot</string>
+    <string name="arxivlandi">Arxivlandi</string>
+    <string name="buyirtmachi">Buyirtmachi</string>
+    <string name="manzil">Manzil</string>
 </resources>

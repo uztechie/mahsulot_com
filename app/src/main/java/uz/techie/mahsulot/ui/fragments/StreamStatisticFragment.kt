@@ -81,7 +81,7 @@ class StreamStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
                     stream_statistic_progressbar.visibility = View.GONE
                     response.data?.let { streamResponse ->
                         val list = mutableListOf<Stream>()
-                        list.add(Stream(id = -2))
+//                        list.add(Stream(id = -2))
 
                         streamResponse.total?.let {
                             val streamTotal = it
@@ -102,7 +102,7 @@ class StreamStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
                         }
 
                         statisticAdapter.differ.submitList(list)
-                        
+
                     }
                 }
             }

@@ -1,56 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--        <com.github.islamkhsh.CardSliderViewPager-->
-<!--            android:id="@+id/cardSlider"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="240dp"-->
-<!--            android:background="@color/background_color"-->
-<!--            app:auto_slide_time="4"-->
-<!--            app:cardSlider_baseShadow="0dp"-->
-<!--            app:cardSlider_indicator="@id/indicator2"-->
-<!--            app:cardSlider_minShadow="0dp"-->
-<!--            app:cardSlider_otherPagesWidth="0dp"-->
-<!--            app:cardSlider_pageMargin="0dp"-->
-<!--            app:cardSlider_smallScaleFactor="1" />-->
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@drawable/main_top_bg"/>
 
-<!--        <com.github.islamkhsh.CardSliderIndicator-->
-<!--            android:id="@+id/indicator2"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            app:indicatorsToShow="5" />-->
-
-
-
-        <com.afdhal_fa.imageslider.ImageSlider
-            android:visibility="gone"
-            android:id="@+id/imageSlider"
+    <androidx.cardview.widget.CardView
+        android:layout_marginVertical="12dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="12dp">
+        <include
+            layout="@layout/layout_islider_image"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:iss_auto_cycle="false"
-            app:iss_delay="2000"
-            app:iss_period="3000"
-            app:iss_placeholder="@drawable/no_image"
-            app:iss_error_image="@drawable/no_image"
-            app:iss_image_scaleType="centerCrop"
-            app:iss_title_color="@color/white"
-            app:iss_with_title="true"
-            app:iss_with_background="true"
-            app:iss_title_gravity="left|bottom"
-            app:iss_title_background="@drawable/gradient" />
-
-
-       <include
-           android:layout_height="250dp"
-           android:layout_width="match_parent"
-               layout="@layout/layout_islider_image"/>
+            android:layout_height="200dp" />
+    </androidx.cardview.widget.CardView>
 
 
 
-</LinearLayout>
+
+</RelativeLayout>
