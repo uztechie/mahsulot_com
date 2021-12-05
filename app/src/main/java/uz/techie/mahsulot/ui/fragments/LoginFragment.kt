@@ -41,7 +41,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
 
         initToolbar()
-
         customProgressDialog = CustomProgressDialog(requireContext())
 
 

@@ -85,7 +85,7 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
             adapter = streamAdapter
         }
 
-        viewModel.streams.observe(viewLifecycleOwner, Observer { response->
+        viewModel.streamListResponse.observe(viewLifecycleOwner, Observer { response->
             Log.d(TAG, "onViewCreated: "+response.data)
             when(response){
                 is Resource.Loading->{
@@ -100,16 +100,24 @@ class StreamFragment:Fragment(R.layout.fragment_stream) {
                 is Resource.Success ->{
                     stream_progressbar.visibility = View.GONE
                     response.data?.let { streamResponse ->
-                        val list = mutableListOf<Stream>()
-                        list.addAll(streamResponse.filter { stream ->
-                            stream.status == "true"
-                        })
 
-                        streamAdapter.differ.submitList(list)
+                        streamResponse.data?.let { streamList->
+                            val list = mutableListOf<Stream>()
+                            list.addAll(streamList.filter { stream ->
+                                stream.status == "true"
+                            })
+                            streamAdapter.differ.submitList(list)
 
-                        if (list.isEmpty()){
-                            Toast.makeText(requireContext(), getString(R.string.sizda_oqimlar_mavjud_emas), Toast.LENGTH_LONG).show()
+                            if (list.isEmpty()){
+                                Toast.makeText(requireContext(), getString(R.string.sizda_oqimlar_mavjud_emas), Toast.LENGTH_LONG).show()
+                            }
                         }
+
+
+
+
+
+
                     }
                 }
             }

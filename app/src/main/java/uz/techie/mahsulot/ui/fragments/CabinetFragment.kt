@@ -24,6 +24,10 @@ import uz.techie.mahsulot.dialog.ConfirmDialog
 import uz.techie.mahsulot.model.User
 import uz.techie.mahsulot.util.Utils
 import java.util.*
+import androidx.activity.OnBackPressedCallback
+
+
+
 
 @AndroidEntryPoint
 class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
@@ -34,6 +38,15 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
         super.onViewCreated(view, savedInstanceState)
 
         initToolbar()
+
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(CabinetFragmentDirections.actionGlobalHomeFragment())
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+
 
         viewModel.getUser().observe(viewLifecycleOwner, Observer {
             user = it
@@ -50,11 +63,6 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
                 cabinet_logout_btn.visibility = View.VISIBLE
             }
         })
-
-
-
-
-
 
 
         cabinet_login_btn.setOnClickListener {

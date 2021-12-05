@@ -63,7 +63,7 @@ class StreamStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
             adapter = statisticAdapter
         }
 
-        viewModel.streams.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.streamListResponse.observe(viewLifecycleOwner, Observer { response ->
             Log.d(TAG, "onViewCreated: " + response.data)
             when (response) {
                 is Resource.Loading -> {
@@ -80,22 +80,29 @@ class StreamStatisticFragment : Fragment(R.layout.fragment_stream_statistic) {
                 is Resource.Success -> {
                     stream_statistic_progressbar.visibility = View.GONE
                     response.data?.let { streamResponse ->
-
-                        Log.d(TAG, "onViewCreated: streamsize "+streamResponse.size)
-
                         val list = mutableListOf<Stream>()
                         list.add(Stream(id = -2))
-                        list.addAll(streamResponse)
 
-                        statisticAdapter.differ.submitList(list)
-
-                        if (streamResponse.isEmpty()) {
-                            showErrorText(getString(R.string.statistika_mavjud_emas))
-                        } else {
-                            hideErrorText()
+                        streamResponse.total?.let {
+                            val streamTotal = it
+                            streamTotal.id = -5
+                            streamTotal.name = getString(R.string.jami)
+                            list.add(streamTotal)
                         }
 
+                        streamResponse.data?.let { streamList->
+                            Log.d(TAG, "onViewCreated: streamsize "+streamList.size)
+                            list.addAll(streamList)
+                            if (streamList.isEmpty()){
+                                showErrorText(getString(R.string.statistika_mavjud_emas))
+                            }
+                            else{
+                                hideErrorText()
+                            }
+                        }
 
+                        statisticAdapter.differ.submitList(list)
+                        
                     }
                 }
             }

@@ -1,7 +1,7 @@
 package uz.techie.mahsulot.model
 
 data class Stream(
-    val id: Int?=null,
+    var id: Int?=null,
     val yangi: Int?=null,
     val qabul_qilindi: Int?=null,
     val yetkazilmoqda: Int?=null,
@@ -15,7 +15,7 @@ data class Stream(
     val price: Int?=null,
     val bonus: Int?=null,
     val marja: Int?=null,
-    val name: String?=null,
+    var name: String?=null,
     val status: String?=null,
     val url: String?=null,
     val reklama: String?=null,

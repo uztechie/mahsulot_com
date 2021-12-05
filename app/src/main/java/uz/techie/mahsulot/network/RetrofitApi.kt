@@ -85,7 +85,7 @@ interface RetrofitApi {
     @GET("api/streams-list/")
     suspend fun loadStreams(
         @Header("Authorization") token:String
-    ):Response<List<Stream>>
+    ):Response<StreamListResponse>
 
 
     @GET("api/streams-delete/{id}")

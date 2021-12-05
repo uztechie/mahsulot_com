@@ -38,6 +38,7 @@ class MahsulotViewModel @Inject constructor(
 
     //streams
     val streams: MutableLiveData<Resource<List<Stream>>> = MutableLiveData()
+    val streamListResponse: MutableLiveData<Resource<StreamListResponse>> = MutableLiveData()
     val streamResponse: MutableLiveData<Resource<StreamResponse>> = MutableLiveData()
     val streamStatistics: MutableLiveData<Resource<StreamStatisticResponse>> = MutableLiveData()
 
@@ -243,16 +244,16 @@ class MahsulotViewModel @Inject constructor(
     }
 
     fun loadStreams(token: String) = viewModelScope.launch {
-        streams.postValue(Resource.Loading())
+        streamListResponse.postValue(Resource.Loading())
         try {
             val response = repository.loadStreams(token)
-            streams.postValue(handleStreamResponse(response))
+            streamListResponse.postValue(handleStreamListResponse(response))
         } catch (e: UnknownHostException) {
-            streams.postValue(Resource.Error("Internetga bog'lanishda xatolik!"))
+            streamListResponse.postValue(Resource.Error("Internetga bog'lanishda xatolik!"))
         } catch (e: InterruptedIOException) {
-            streams.postValue(Resource.Error("Internetga bog'lanishda xatolik!"))
+            streamListResponse.postValue(Resource.Error("Internetga bog'lanishda xatolik!"))
         } catch (e: Exception) {
-            streams.postValue(Resource.Error(message = e.toString()))
+            streamListResponse.postValue(Resource.Error(message = e.toString()))
         }
     }
 
@@ -487,6 +488,17 @@ class MahsulotViewModel @Inject constructor(
         }
         return Resource.Error(response.message())
     }
+
+    private fun handleStreamListResponse(response: Response<StreamListResponse>): Resource<StreamListResponse> {
+        Log.d(TAG, "handleStreamResponse: " + response)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
 
     private fun handleStreamCreationResponse(response: Response<StreamResponse>): Resource<StreamResponse> {
         Log.d(TAG, "handleStreamResponse: " + response)
