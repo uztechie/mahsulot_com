@@ -20,8 +20,8 @@
     <color name="background_color">#EBEAEF</color>
     <color name="background_color_light">#F6F6F6</color>
     <color name="background_color_on_item">#FFFFFF</color>
-    <color name="light_blue">#8649ff</color>
-<!--    <color name="light_blue">#189BD6</color>-->
+<!--    <color name="light_blue">#8649ff</color>-->
+    <color name="light_blue">#189BD6</color>
 
 
 

@@ -29,8 +29,6 @@ import java.lang.IllegalArgumentException
 class ProductAdapter(val onOpenFragment: OnOpenFragment):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
 
-
-
     companion object{
         private const val TAG = "ProductAdapter"
         const val HEADER = 1
