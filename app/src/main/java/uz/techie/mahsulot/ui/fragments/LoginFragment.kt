@@ -190,6 +190,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         if (smsResponse.status == 200) {
                             showCodeInput(sPhone)
                         }
+                        else if (smsResponse.status == 220){
+                            smsResponse.user?.let {
+                                pauseTimer()
+                                viewModel.insertUser(it)
+                                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToCabinetFragment())
+                            }
+                        }
                     }
                 }
                 is Resource.Error -> {
