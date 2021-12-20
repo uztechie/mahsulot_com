@@ -11,6 +11,10 @@ object Constants {
     const val BASE_URL = "https://mahsulot.com/"
     const val MY_TOKEN = "slkfjadof23415ewkrjweja2342ghieurasdk934234jkb4jrb432j52k43DSNFInsiodfnewoiea"
 
+    const val FEMALE = "female"
+    const val MALE = "male"
+    const val LOGGED = "logged"
+    const val ALL = "all"
 
     var homeRecyclerPosition = 0
     var homeRecyclerState:Parcelable? = null

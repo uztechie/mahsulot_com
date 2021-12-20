@@ -23,7 +23,8 @@ class StreamSoldStatisticAdapter(val mContext: Context) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: StreamStatistic) {
             val position = absoluteAdapterPosition
-            binding.adapterStatTartibRaqami.text = position.toString()
+            binding.adapterStatTartibRaqami.text = "№ ${data.id}"
+            binding.adapterStatOperator.text = data.operator.toString()
             binding.adapterStatNomi.text = data.stream_name
             binding.adapterStatBuyurtmachi.text =
                 "${data.customer_name}\n${Utils.hidePhoneNumber(data.customer_phone!!)}"

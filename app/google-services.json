@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "110905291382",
+    "project_id": "mahsulot-com",
+    "storage_bucket": "mahsulot-com.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110905291382:android:397177ceca9f70bb6a6557",
+        "android_client_info": {
+          "package_name": "uz.techie.mahsulot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "110905291382-24i8ed6ni79hakgpmjihrrefbgugcov3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsKH_8JVCGxOJsI0p5h3qN33mky70Ef5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110905291382-24i8ed6ni79hakgpmjihrrefbgugcov3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

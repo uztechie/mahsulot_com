@@ -76,6 +76,7 @@ class ProfileFragment:Fragment(R.layout.fragment_profile) {
                 token = "Token $it"
 
                 Log.d(TAG, "onViewCreated: token "+token)
+//                token = "Token fa3e2a6c69c061df8cab7ba1edfe621e9f4df993"
                 viewModel.loadProfile(token)
             }
         })
@@ -92,7 +93,7 @@ class ProfileFragment:Fragment(R.layout.fragment_profile) {
         profile.data?.let { data->
             profile_main_balance_tv.text = "${data.hisobi?.let { Utils.toMoney(it) }} ${getString(R.string.som)}"
             profile_hold_balance_tv.text = "${data.hold?.let { Utils.toMoney(it) }} ${getString(R.string.som)}"
-            profile_sold_tv.text = "${data.muzlatildi?.let { Utils.toMoney(it) }} ${getString(R.string.ta)}"
+            profile_sold_tv.text = "${data.yetkazib_berildi?.let { Utils.toMoney(it) }} ${getString(R.string.ta)}"
             profile_marja_balance_tv.text = "${data.marja?.let { Utils.toMoney(it) }} ${getString(R.string.ta)}"
 
             submitPieChartData(data)

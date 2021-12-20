@@ -1,7 +1,6 @@
 package uz.techie.mahsulot.ui.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import uz.techie.mahsulot.MainActivity
 import uz.techie.mahsulot.R
 import uz.techie.mahsulot.adapter.ProductAdapter
@@ -219,6 +217,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         initSwipeRefresh()
 
+        viewModel.getUser().observe(viewLifecycleOwner, Observer { user->
+            user?.phone?.let {
+                subscribeTopic(it)
+                subscribeTopic(Constants.LOGGED)
+            }
+            user?.gender?.let {
+                if (it == "True"){
+                    subscribeTopic(Constants.MALE)
+                }
+                else{
+                    subscribeTopic(Constants.FEMALE)
+                }
+            }
+            subscribeTopic(Constants.ALL)
+        })
+
+
 
     }
 
@@ -288,8 +303,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        productAdapter.differ.submitList(Constants.productList)
 //        product_recyclerview.scrollToPosition(Constants.homeRecyclerPosition)
 
-
     }
+
+    private fun subscribeTopic(phone:String){
+        Log.d(TAG, "subscribeTopic: topic $phone")
+        Firebase.messaging.subscribeToTopic(phone)
+    }
+
 
     override fun onPause() {
         super.onPause()
@@ -304,6 +324,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onStop()
         (activity as MainActivity).updateStatusLight()
     }
+
 
 
 

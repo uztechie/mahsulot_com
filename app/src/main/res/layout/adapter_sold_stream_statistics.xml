@@ -10,9 +10,20 @@
         android:id="@+id/adapter_stat_tartib_raqami"
         android:padding="4dp"
         style="@style/tableTextStyle"
-        android:layout_width="32dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="#"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/adapter_stat_operator"
+        android:padding="4dp"
+        style="@style/tableTextStyle"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="@string/operator"
         android:gravity="center"
         android:textAlignment="center"/>
 

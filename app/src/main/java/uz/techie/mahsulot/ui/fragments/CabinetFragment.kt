@@ -25,8 +25,9 @@ import uz.techie.mahsulot.model.User
 import uz.techie.mahsulot.util.Utils
 import java.util.*
 import androidx.activity.OnBackPressedCallback
-
-
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import uz.techie.mahsulot.util.Constants
 
 
 @AndroidEntryPoint
@@ -118,7 +119,23 @@ class CabinetFragment :Fragment(R.layout.fragment_cabinet) {
     }
 
     private fun logout() {
-        viewModel.deleteUser()
+        viewModel.getUser().observe(viewLifecycleOwner, Observer { user->
+            user?.phone?.let {
+                Firebase.messaging.unsubscribeFromTopic(it)
+            }
+            user?.gender?.let {
+                if (it == "True"){
+                    Firebase.messaging.unsubscribeFromTopic(Constants.MALE)
+                }
+                else{
+                    Firebase.messaging.unsubscribeFromTopic(Constants.FEMALE)
+                }
+            }
+            Firebase.messaging.unsubscribeFromTopic(Constants.LOGGED)
+            viewModel.deleteUser()
+        })
+
+
         cabinet_info_layout.visibility = View.GONE
         cabinet_private_layout.visibility = View.GONE
         cabinet_login_btn.visibility = View.VISIBLE

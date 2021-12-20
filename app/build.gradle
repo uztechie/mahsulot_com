@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id "androidx.navigation.safeargs.kotlin"
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -14,8 +15,8 @@ android {
         applicationId "uz.techie.mahsulot"
         minSdk 21
         targetSdk 30
-        versionCode 5
-        versionName '1.0.5'
+        versionCode 7
+        versionName '1.0.7'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -52,6 +53,11 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:29.0.2')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 
     //lifesycle
     implementation "android.arch.lifecycle:extensions:1.1.1"
