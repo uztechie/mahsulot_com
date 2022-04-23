@@ -3,22 +3,99 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable-v24/card_number_et_error.xml" value="0.2175925925925926" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable-v24/card_number_et_success.xml" value="0.2175925925925926" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable-v24/layout_stroke_whilte.xml" value="0.22962962962962963" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable-v24/link_copy_button.xml" value="0.21814345991561182" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/button_bg.xml" value="0.23703703703703705" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/button_text_color.xml" value="0.23703703703703705" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/curved_search_bg.xml" value="0.23333333333333334" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/curved_stroke_search_bg.xml" value="0.23333333333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/dots_bg.xml" value="0.22685185185185186" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.26927083333333335" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.26927083333333335" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_baseline_wifi_off_24.xml" value="0.23425925925925925" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_card.xml" value="0.3758974358974359" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_close.xml" value="0.23333333333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_m__1_.xml" value="0.2101851851851852" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/ic_telegram.xml" value="0.38177083333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/layout_stroke.xml" value="0.22962962962962963" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/link_layout_bg.xml" value="0.21814345991561182" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/main_top_bg.xml" value="0.22685185185185186" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/phone_et_bg.xml" value="0.21814345991561182" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/progress_animation.xml" value="0.23333333333333334" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/radio_gender.xml" value="0.22962962962962963" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/radio_gender_bg.xml" value="0.22962962962962963" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/rounded_image_bg.xml" value="0.22962962962962963" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/rounded_shape.xml" value="0.23425925925925925" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/rounded_stroke_shape.xml" value="0.23425925925925925" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/slider_indicator_bg.xml" value="0.1453125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/text_color_enable_disable.xml" value="0.22962962962962963" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/top_product_bg.xml" value="0.22685185185185186" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/drawable/white_rounded_stroke.xml" value="0.2175925925925926" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/font/brandon.xml" value="0.22685185185185186" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/font/nunito.xml" value="0.22685185185185186" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_body.xml" value="0.5102880658436214" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_category.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_competition.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_dropdown.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_order_statistics.xml" value="0.2076923076923077" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_product.xml" value="0.264" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_product_header.xml" value="0.6075" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_slider_card.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_sold_stream_statistics.xml" value="0.4" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_stream.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_stream_product.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_stream_sold_statistics.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_stream_statistics.xml" value="0.176" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_top_product.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/adapter_withdraw_history.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/container_fragment_slider.xml" value="0.6075" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/custom_toolbar.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/dialog_confirmation.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/dialog_custom_progressbar.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/dialog_info.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/dialog_input_affiliate.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/dialog_internet.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/dialog_positive_negative.xml" value="0.33" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_cabinet.xml" value="0.264" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_category.xml" value="0.19074074074074074" />
-        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_home.xml" value="0.152" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_code_input.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_competition.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_create_marja_order.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_create_order.xml" value="0.2" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_login.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_order_statistic.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_private_info.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_product.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_product_detail.xml" value="0.6075" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_product_details.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_register.xml" value="0.264" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_search.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_slider.xml" value="0.2" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_statistic.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_stream.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_stream_product.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_stream_sold_statistic.xml" value="0.2604166666666667" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_stream_statistic.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_top_product.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_withdraw.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/fragment_withdraw_history.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/islider_item.xml" value="0.253125" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/item_article_preview.xml" value="0.6075" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/layout_islider_image.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/layout_slider.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/progress_button.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/search_toolbar.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/toast_icon_text.xml" value="0.2076923076923077" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/toolbar.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/layout/top_product_container.xml" value="0.12916666666666668" />
         <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/menu/bottom_menu.xml" value="0.253125" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/menu/search_menu.xml" value="0.2076923076923077" />
+        <entry key="..\:/Projects/AndroidProject/Custom/Mahsulot/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1453125" />
       </map>
     </option>
   </component>

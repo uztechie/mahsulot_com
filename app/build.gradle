@@ -12,7 +12,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "uz.techie.mahsulot"
+        applicationId "uz.ibroxim.mahsulot"
         minSdk 21
         targetSdk 30
         versionCode 7
@@ -148,6 +148,8 @@ dependencies {
 
     //progressbar
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+//    implementation 'com.google.android.play:core-ktx:1.8.1'
 
 
 

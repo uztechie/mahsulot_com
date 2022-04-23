@@ -67,6 +67,7 @@ class WithdrawHistoryFragment : Fragment(R.layout.fragment_withdraw_history) {
             adapter = statisticAdapter
         }
 
+
         viewModel.withdrawHistory.observe(viewLifecycleOwner, Observer { response ->
             Log.d(TAG, "onViewCreated: " + response.data)
             when (response) {

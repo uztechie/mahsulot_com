@@ -29,7 +29,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             val title = it.notification?.title
             val message = it.notification?.body
 
-            createNotification(title!!, message!!)
+            createNotification(title?:"", message?:"")
 
         }
 
